@@ -8,6 +8,10 @@ const Order = db.define('order', {
   },
   shippingAdress: {
     type: Sequelize.STRING
+  },
+  total: {
+    type: Sequelize.DECIMAL,
+    defaultValue: '0'
   }
 })
 
