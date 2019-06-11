@@ -5,6 +5,9 @@ const Order = db.define('order', {
   status: {
     type: Sequelize.ENUM('pending', 'complete'),
     defaultValue: 'pending'
+  },
+  shippingAdress: {
+    type: Sequelize.STRING
   }
 })
 

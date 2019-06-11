@@ -25,8 +25,8 @@ User.hasMany(Order)
 Item.belongsTo(Product)
 Product.hasMany(Item)
 
-Order.belongsToMany(Product, {through: 'orderdetails'})
-Product.belongsToMany(Order, {through: 'orderdetails'})
+OrderDetails.belongsTo(Item)
+Item.hasMany(OrderDetails)
 
 OrderDetails.belongsTo(Order)
 Order.hasMany(OrderDetails)
