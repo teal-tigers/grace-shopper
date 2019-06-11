@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import {auth, addUserThunk} from '../store'
 
 /**
  * COMPONENT
@@ -12,6 +12,22 @@ const AuthForm = props => {
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
+        {displayName === 'Sign Up' && (
+          <div>
+            <div>
+              <label htmlFor="fullname">
+                <small>Name</small>
+              </label>
+              <input name="fullname" type="text" required />
+              <div>
+                <label htmlFor="address">
+                  <small>Address</small>
+                </label>
+                <input name="address" type="text" />
+              </div>
+            </div>
+          </div>
+        )}
         <div>
           <label htmlFor="email">
             <small>Email</small>
@@ -57,20 +73,33 @@ const mapSignup = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatchLogin = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      const formName = evt.target.name
+      const formName = evt.target.name.value
       const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      const password = evt.target.email.value
+      dispatch(auth(formName, email, password))
     }
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+const mapDispatchSignup = dispatch => {
+  return {
+    handleSubmit(evt) {
+      evt.preventDefault()
+      const fullname = evt.target.fullname.value
+      const email = evt.target.email.value
+      const password = evt.target.password.value
+      const address = evt.target.address.value
+      dispatch(addUserThunk(fullname, email, password, address))
+    }
+  }
+}
+
+export const Login = connect(mapLogin, mapDispatchLogin)(AuthForm)
+export const Signup = connect(mapSignup, mapDispatchSignup)(AuthForm)
 
 /**
  * PROP TYPES
