@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Product, OrderDetails, Item} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -56,7 +56,14 @@ async function seed() {
       description:
         'Italian made leather ankle boots featured in a western-inspired style with cutout details at the ankle and a fun embroidered design. Made in Italy',
       price: '538.00'
-    })
+    }),
+    await OrderDetails.create(
+      {
+        quantity: 2,
+        itemId: 2
+      },
+      {include: [Item]}
+    )
   ])
 
   console.log(`seeded ${users.length} users`)

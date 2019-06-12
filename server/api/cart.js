@@ -2,6 +2,18 @@ const router = require('express').Router()
 const {Product, Item, OrderDetails} = require('../db/models')
 module.exports = router
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    let deleted = await OrderDetails.findOne({
+      where: {
+        itemId: req.params.id
+      }
+    })
+    res.json(deleted)
+  } catch (error) {
+    next(error)
+  }
+})
 router.post('/', async (req, res, next) => {
   try {
     let cartItem = await OrderDetails.findOrCreate({
