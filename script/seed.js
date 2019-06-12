@@ -52,7 +52,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Arizona Western Boot',
-      imageUrl: '/img/santa-anas.jpeg',
+      imageUrl: '/img/arizona.jpeg',
       description:
         'Italian made leather ankle boots featured in a western-inspired style with cutout details at the ankle and a fun embroidered design. Made in Italy',
       price: '538.00'
