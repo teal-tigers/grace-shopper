@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product, OrderDetails, Item} = require('../server/db/models')
+const {User, Product} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -27,43 +27,81 @@ async function seed() {
       imageUrl: '/img/high-noon.jpeg',
       description:
         'Handmade genuine leather cowboy boots featuring embroidered designs in sparkling thread. Made in the USA',
-      price: '498.00'
+      price: '498.00',
+      size: '6'
+    }),
+    await Product.create({
+      name: 'High Noon',
+      imageUrl: '/img/high-noon.jpeg',
+      description:
+        'Handmade genuine leather cowboy boots featuring embroidered designs in sparkling thread. Made in the USA',
+      price: '498.00',
+      size: '7'
     }),
     await Product.create({
       name: 'Almost Famous Western Boot',
       imageUrl: '/img/almost-famous.jpeg',
       description:
         'Statement western style boots featuring floral embroidery with studded details, and a cool distressed look. Import',
-      price: '758.00'
+      price: '758.00',
+      size: '7'
+    }),
+    await Product.create({
+      name: 'Almost Famous Western Boot',
+      imageUrl: '/img/almost-famous.jpeg',
+      description:
+        'Statement western style boots featuring floral embroidery with studded details, and a cool distressed look. Import',
+      price: '758.00',
+      size: '9'
     }),
     await Product.create({
       name: 'Clover Field Western Boot',
       imageUrl: '/img/clover-field.jpeg',
       description:
         'Italian made leather boots featuring a western-inspired design with a slim ankle silhouette and metallic stitched details. Made in Italy',
-      price: '528.00'
+      price: '528.00',
+      size: '8'
+    }),
+    await Product.create({
+      name: 'Clover Field Western Boot',
+      imageUrl: '/img/clover-field.jpeg',
+      description:
+        'Italian made leather boots featuring a western-inspired design with a slim ankle silhouette and metallic stitched details. Made in Italy',
+      price: '528.00',
+      size: '9'
     }),
     await Product.create({
       name: 'Santa Anas Western Boot',
       imageUrl: '/img/santa-anas.jpeg',
       description:
         'Italian made western-style ankle boots featured in a metallic leather design with floral embroidery, a pointed toe and a block heel. Made in Italy',
-      price: '498.00'
+      price: '498.00',
+      size: '9'
+    }),
+    await Product.create({
+      name: 'Santa Anas Western Boot',
+      imageUrl: '/img/santa-anas.jpeg',
+      description:
+        'Italian made western-style ankle boots featured in a metallic leather design with floral embroidery, a pointed toe and a block heel. Made in Italy',
+      price: '498.00',
+      size: '10'
     }),
     await Product.create({
       name: 'Arizona Western Boot',
       imageUrl: '/img/arizona.jpeg',
       description:
         'Italian made leather ankle boots featured in a western-inspired style with cutout details at the ankle and a fun embroidered design. Made in Italy',
-      price: '538.00'
+      price: '538.00',
+      size: '10'
     }),
-    await OrderDetails.create(
-      {
-        quantity: 2,
-        itemId: 2
-      },
-      {include: [Item]}
-    )
+    await Product.create({
+      name: 'Arizona Western Boot',
+      imageUrl: '/img/arizona.jpeg',
+      description:
+        'Italian made leather ankle boots featured in a western-inspired style with cutout details at the ankle and a fun embroidered design. Made in Italy',
+      price: '538.00',
+      size: '7'
+    })
   ])
 
   console.log(`seeded ${users.length} users`)

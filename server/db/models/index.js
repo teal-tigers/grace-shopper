@@ -1,8 +1,7 @@
 const User = require('./user')
 const Product = require('./product')
 const Order = require('./order')
-const Item = require('./item')
-const OrderDetails = require('./orderdetails')
+const OrderProduct = require('./orderProduct')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -22,19 +21,12 @@ const OrderDetails = require('./orderdetails')
 Order.belongsTo(User)
 User.hasMany(Order)
 
-Item.belongsTo(Product)
-Product.hasMany(Item)
-
-OrderDetails.belongsTo(Item)
-Item.hasMany(OrderDetails)
-
-OrderDetails.belongsTo(Order)
-Order.hasMany(OrderDetails)
+Order.hasMany(Product, {thorugh: 'order_products'})
+Product.belongsToMany(Order, {through: 'order_products'})
 
 module.exports = {
   User,
   Product,
   Order,
-  Item,
-  OrderDetails
+  OrderProduct
 }
