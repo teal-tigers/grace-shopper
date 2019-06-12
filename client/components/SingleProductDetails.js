@@ -28,6 +28,16 @@ class SingleProductDetails extends React.Component {
             <option value="5">5</option>
           </select>
         </div>
+        <div>
+          <label>Size: </label>
+          <select name="Size">
+            {product.items.map(item => (
+              <option key={item.id} value={item.id}>
+                {item.size}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     )
   }
