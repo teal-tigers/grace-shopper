@@ -6,7 +6,7 @@ const Order = db.define('order', {
     type: Sequelize.ENUM('pending', 'complete'),
     defaultValue: 'pending'
   },
-  shippingAdress: {
+  shippingAddress: {
     type: Sequelize.STRING
   },
   total: {
