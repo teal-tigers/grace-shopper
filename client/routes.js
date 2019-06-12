@@ -31,7 +31,7 @@ class Routes extends Component {
         <Route path="/products/:id" component={SingleProductDetails} />
 
         {/* Displays our AllProducts component as a fallback */}
-        <Route component={AllProducts} />
+        <Route path="/" component={AllProducts} />
       </Switch>
     )
   }
