@@ -17,7 +17,8 @@ router.post('/', async (req, res, next) => {
   try {
     let cartItem = await OrderDetails.findOrCreate({
       where: {
-        itemId: req.body.itemId
+        itemId: req.body.itemId,
+        orderId: req.body.orderId
       }
     })
     let oldQuantity = cartItem.quantity
@@ -33,7 +34,8 @@ router.put('/', async (req, res, next) => {
   try {
     let updatedQuantity = await OrderDetails.findOne({
       where: {
-        itemId: req.body.itemId
+        itemId: req.body.itemId,
+        orderId: req.body.orderId
       }
     })
     let newQuantity = await updatedQuantity.update({
@@ -49,7 +51,8 @@ router.delete('/', async (req, res, next) => {
   try {
     let deleted = await OrderDetails.destroy({
       where: {
-        itemId: req.body.itemId
+        itemId: req.body.itemId,
+        orderId: req.body.orderId
       }
     })
     res.status(204).json(deleted)
