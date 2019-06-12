@@ -1,15 +1,14 @@
 const router = require('express').Router()
-const {Product, Item, OrderDetails} = require('../db/models')
+const {Product, Item, OrderDetails, Order} = require('../db/models')
 module.exports = router
 
-router.get('/:id', async (req, res, next) => {
+//UserId, OrderId
+
+router.get('/', async (req, res, next) => {
   try {
-    let deleted = await OrderDetails.findOne({
-      where: {
-        itemId: req.params.id
-      }
-    })
-    res.json(deleted)
+    let {orderId} = await Order.findOne({where: {userId: req.body.userId}})
+    let ItemList = await OrderDetails.findAll({where: {orderId: orderId}})
+    res.json(ItemList)
   } catch (error) {
     next(error)
   }
