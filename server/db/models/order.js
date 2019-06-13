@@ -20,7 +20,7 @@ const Order = db.define('order', {
 Order.prototype.calculateTotal = async function() {
   let orderId = this.id
   let {products} = await Order.findOne({
-    where: {id: 1},
+    where: {id: orderId},
     include: [{model: Product}]
   })
   let total = 0
