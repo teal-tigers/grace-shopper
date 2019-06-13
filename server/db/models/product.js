@@ -23,14 +23,6 @@ const Product = db.define('product', {
   }
 })
 
-// const priceToFloat = instance => {
-//   console.log(instance.price)
-//   instance.price = parseFloat(instance.price)
-// }
-
-// Product.beforeCreate(priceToFloat)
-// Product.beforeUpdate(priceToFloat)
-
 Product.findUniqueStyle = async function() {
   let allProducts = await Product.findAll()
 

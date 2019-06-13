@@ -26,8 +26,6 @@ Order.prototype.calculateTotal = async function() {
   })
   let total = 0
   products.forEach(product => {
-    console.log('product price', product.price)
-    console.log('product quantity', product.order_products.quantity)
     let price = product.price
     let quantity = product.order_products.quantity
     total = total + price * quantity

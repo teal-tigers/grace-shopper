@@ -14,7 +14,9 @@ class SingleProductDetails extends React.Component {
       return <div>LOADING...</div>
     }
     let {productStyle} = this.props
-    return (
+    return productStyle.length < 1 ? (
+      ''
+    ) : (
       <div>
         <h1>{productStyle[0].name}</h1>
         <img src={productStyle[0].imageUrl} width="75px" height="75px" />

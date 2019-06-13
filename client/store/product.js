@@ -5,7 +5,6 @@ import history from '../history'
  * ACTION TYPES
  */
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
-// const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const GET_PRODUCT_STYLE = 'GET_PRODUCT_STYLE'
 
 /**
