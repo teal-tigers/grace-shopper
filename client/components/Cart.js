@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import Checkout from './Checkout'
 import {
   getItemsThunk,
-  //addItemThunk,
+  addItemThunk,
   deleteItemThunk,
   updateQuantityThunk
 } from '../store/cart'
@@ -18,6 +19,9 @@ class Cart extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <div>LOADING...</div>
+    }
     const {cartItems} = this.props
 
     // helper func to calculate order total
@@ -82,8 +86,12 @@ class Cart extends React.Component {
           <div>
             {/* Convert a number into a string, keeping only two decimals */}
             <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
-
-            {/* maybe anothe componen to show user info and address to edit */}
+            <div>
+              <Checkout
+                addItemThunk={addItemThunk}
+                // history={this.props.history}
+              />
+            </div>
           </div>
         )}
       </div>
@@ -92,7 +100,8 @@ class Cart extends React.Component {
 }
 
 const mapState = state => ({
-  cartItems: state.cart.items
+  cartItems: state.cart.cartItems,
+  loading: state.cart.loading
 })
 
 const mapDispatch = dispatch => ({
