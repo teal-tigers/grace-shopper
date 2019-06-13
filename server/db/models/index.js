@@ -19,7 +19,7 @@ const OrderProduct = require('./orderProduct')
 
 // Associations:
 Order.belongsTo(User)
-User.hasMany(Order)
+User.hasOne(Order)
 
 Order.belongsToMany(Product, {through: 'order_products'})
 Product.belongsToMany(Order, {through: 'order_products'})

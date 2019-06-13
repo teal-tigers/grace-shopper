@@ -19,7 +19,6 @@ const Order = db.define('order', {
 
 Order.prototype.calculateTotal = async function() {
   let orderId = this.id
-  console.log('ORDERID:', orderId)
   let {products} = await Order.findOne({
     where: {id: 1},
     include: [{model: Product}]

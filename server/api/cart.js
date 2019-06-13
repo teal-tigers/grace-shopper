@@ -1,13 +1,20 @@
 const router = require('express').Router()
-const {Product, OrderProduct, Order} = require('../db/models')
+const {Product, OrderProduct, Order, User} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    let order = await Order.findOne({where: {id: 1}})
-    await order.calculateTotal()
+    //get orderId from userId
+    let user = await User.findOne({
+      where: {id: req.body.userId},
+      include: [{model: Order}]
+    })
+
+    let orderId = user.order.id
+
+    // await order.calculateTotal()
     let items = await Order.findOne({
-      where: {id: req.body.orderId},
+      where: {id: orderId},
       include: [{model: Product}]
     })
     res.json(items)

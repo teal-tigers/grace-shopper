@@ -113,7 +113,7 @@ async function seed() {
     status: 'pending'
   })
   let boots = await Product.findAll({where: {size: '10'}})
-  await cody.addOrder(order)
+  await cody.setOrder(order)
   await order.setProducts(boots)
   await OrderProduct.update(
     {quantity: 5},
