@@ -28,7 +28,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={AllProducts} />
-        <Route path="/products/:id" component={SingleProductDetails} />
+        <Route path="/products" component={SingleProductDetails} />
 
         {/* Displays our AllProducts component as a fallback */}
         <Route path="/" component={AllProducts} />

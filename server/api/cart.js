@@ -1,23 +1,26 @@
 const router = require('express').Router()
-const {Product, Item, OrderDetails, Order} = require('../db/models')
+const {Product, OrderProduct, Order} = require('../db/models')
 module.exports = router
-
-//UserId, OrderId
 
 router.get('/', async (req, res, next) => {
   try {
-    let {orderId} = await Order.findOne({where: {userId: req.body.userId}})
-    let ItemList = await OrderDetails.findAll({where: {orderId: orderId}})
-    res.json(ItemList)
+    let order = await Order.findOne({where: {id: 1}})
+    await order.calculateTotal()
+    let items = await Order.findOne({
+      where: {id: req.body.orderId},
+      include: [{model: Product}]
+    })
+    res.json(items)
   } catch (error) {
     next(error)
   }
 })
+
 router.post('/', async (req, res, next) => {
   try {
-    let cartItem = await OrderDetails.findOrCreate({
+    let cartItem = await OrderProduct.findOrCreate({
       where: {
-        itemId: req.body.itemId,
+        productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
@@ -32,9 +35,9 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    let updatedQuantity = await OrderDetails.findOne({
+    let updatedQuantity = await OrderProduct.findOne({
       where: {
-        itemId: req.body.itemId,
+        productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
@@ -49,9 +52,9 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
   try {
-    let deleted = await OrderDetails.destroy({
+    let deleted = await OrderProduct.destroy({
       where: {
-        itemId: req.body.itemId,
+        productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
