@@ -18,16 +18,24 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    let cartItem = await OrderProduct.findOrCreate({
+    let {orderId, productId} = req.body
+    let [orderProductEntry] = await OrderProduct.findOrCreate({
       where: {
-        productId: req.body.productId,
-        orderId: req.body.orderId
+        productId: productId,
+        orderId: orderId
       }
     })
-    let oldQuantity = cartItem.quantity
+    let oldQuantity = orderProductEntry.quantity
     let newQuantity = oldQuantity + req.body.quantity
-    let newCartItem = await cartItem.update({quantity: newQuantity})
-    res.status(201).json(newCartItem)
+    await orderProductEntry.update({
+      quantity: newQuantity
+    })
+    let {products} = await Order.findOne({
+      where: {id: orderId},
+      include: [{model: Product, where: {id: productId}}]
+    })
+    let addedItem = products[0]
+    res.status(201).json(addedItem)
   } catch (error) {
     next(error)
   }
@@ -35,16 +43,23 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
+    let {orderId, productId} = req.body
     let updatedQuantity = await OrderProduct.findOne({
       where: {
         productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
-    let newQuantity = await updatedQuantity.update({
+    await updatedQuantity.update({
       quantity: req.body.quantity
     })
-    res.status(201).json(newQuantity)
+
+    let {products} = await Order.findOne({
+      where: {id: orderId},
+      include: [{model: Product, where: {id: productId}}]
+    })
+    let updatedQuantityItem = products[0]
+    res.status(201).json(updatedQuantityItem)
   } catch (error) {
     next(error)
   }
@@ -52,13 +67,13 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
   try {
-    let deleted = await OrderProduct.destroy({
+    await OrderProduct.destroy({
       where: {
         productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
-    res.status(204).json(deleted)
+    res.status(204)
   } catch (error) {
     next(error)
   }

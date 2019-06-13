@@ -33,6 +33,7 @@ const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
  * THUNK CREATORS
  */
 
+//takes an orderId and dispatches (1) gotItems with array of Products, joined with associated order_products info, and (2) gotOrder with object of Order info.
 export const getOrderAndItemsThunk = orderId => async dispatch => {
   try {
     const {data} = await axios.get('/api/cart/items', orderId)
@@ -46,6 +47,7 @@ export const getOrderAndItemsThunk = orderId => async dispatch => {
   }
 }
 
+//takes orderId, productId, and quantity, and dispatches addedItem with object that represents order_product entry
 export const addItemThunk = (
   orderId,
   productId,
@@ -61,8 +63,8 @@ export const addItemThunk = (
 
 export const deleteItemThunk = (orderId, productId) => async dispatch => {
   try {
-    const {data} = await axios.delete(`/api/cart`, {orderId, productId})
-    dispatch(deletedItem(data))
+    await axios.delete(`/api/cart`, {orderId, productId})
+    dispatch(deletedItem(productId))
   } catch (error) {
     console.log('There was an error with deleteItemThunk:', error)
   }
