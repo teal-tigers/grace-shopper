@@ -36,7 +36,9 @@ const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
 //takes a userId and dispatches (1) gotItems with array of Products, joined with associated order_products info, and (2) gotOrder with object of Order info.
 export const getOrderAndItemsThunk = userId => async dispatch => {
   try {
-    const {data} = await axios.get('/api/cart/items', userId)
+    console.log('USERID', userId)
+    const {data} = await axios.get(`/api/cart/${userId}`)
+    console.log('DATA', data)
     let itemList = data.products
     delete data.products
     let orderInfo = data
@@ -80,6 +82,8 @@ export const updateQuantityThunk = (
   quantity
 ) => async dispatch => {
   try {
+    console.log('productId', productId)
+    console.log('quantity', quantity)
     const {data} = await axios.put(`/api/cart`, {orderId, productId, quantity})
     dispatch(updatedQuantity(data))
   } catch (error) {

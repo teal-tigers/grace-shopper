@@ -7,16 +7,19 @@ import {
   Signup,
   UserHome,
   AllProducts,
-  SingleProductDetails
+  SingleProductDetails,
+  Cart
 } from './components'
+import {getOrderAndItemsThunk} from './store/cart'
 import {me} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData()
+    // await this.props.getOrderAndItemsThunk(this.props.userId)
   }
 
   render() {
@@ -29,8 +32,12 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={AllProducts} />
         <Route path="/products" component={SingleProductDetails} />
-
+        <Route
+          path="/cart"
+          render={props => <Cart {...props} userId={this.props.userId} />}
+        />
         {/* Displays our AllProducts component as a fallback */}
+
         <Route path="/" component={AllProducts} />
       </Switch>
     )
@@ -44,17 +51,15 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    userId: state.user.id
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadInitialData() {
-      dispatch(me())
-    }
-  }
-}
+const mapDispatch = dispatch => ({
+  loadInitialData: () => dispatch(me()),
+  getOrderAndItemsThunk: orderId => dispatch(getOrderAndItemsThunk(orderId))
+})
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
