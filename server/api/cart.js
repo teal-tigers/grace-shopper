@@ -2,13 +2,16 @@ const router = require('express').Router()
 const {Product, OrderProduct, Order, User} = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     //get orderId from userId
+    console.log(req.params.userId)
     let user = await User.findOne({
-      where: {id: req.body.userId},
+      where: {id: req.params.userId},
       include: [{model: Order}]
     })
+
+    console.log('USER', user)
 
     let orderId = user.order.id
 
@@ -51,6 +54,8 @@ router.post('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   try {
     let {orderId, productId} = req.body
+    console.log('orderId', orderId)
+    console.log('productId', productId)
     let updatedQuantity = await OrderProduct.findOne({
       where: {
         productId: req.body.productId,
