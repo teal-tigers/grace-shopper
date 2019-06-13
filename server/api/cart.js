@@ -1,30 +1,48 @@
 const router = require('express').Router()
-const {Product, Item, OrderDetails, Order} = require('../db/models')
+const {Product, OrderProduct, Order, User} = require('../db/models')
 module.exports = router
-
-//UserId, OrderId
 
 router.get('/', async (req, res, next) => {
   try {
-    let {orderId} = await Order.findOne({where: {userId: req.body.userId}})
-    let ItemList = await OrderDetails.findAll({where: {orderId: orderId}})
-    res.json(ItemList)
+    //get orderId from userId
+    let user = await User.findOne({
+      where: {id: req.body.userId},
+      include: [{model: Order}]
+    })
+
+    let orderId = user.order.id
+
+    // await order.calculateTotal()
+    let items = await Order.findOne({
+      where: {id: orderId},
+      include: [{model: Product}]
+    })
+    res.json(items)
   } catch (error) {
     next(error)
   }
 })
+
 router.post('/', async (req, res, next) => {
   try {
-    let cartItem = await OrderDetails.findOrCreate({
+    let {orderId, productId} = req.body
+    let [orderProductEntry] = await OrderProduct.findOrCreate({
       where: {
-        itemId: req.body.itemId,
-        orderId: req.body.orderId
+        productId: productId,
+        orderId: orderId
       }
     })
-    let oldQuantity = cartItem.quantity
+    let oldQuantity = orderProductEntry.quantity
     let newQuantity = oldQuantity + req.body.quantity
-    let newCartItem = await cartItem.update({quantity: newQuantity})
-    res.status(201).json(newCartItem)
+    await orderProductEntry.update({
+      quantity: newQuantity
+    })
+    let {products} = await Order.findOne({
+      where: {id: orderId},
+      include: [{model: Product, where: {id: productId}}]
+    })
+    let addedItem = products[0]
+    res.status(201).json(addedItem)
   } catch (error) {
     next(error)
   }
@@ -32,16 +50,23 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    let updatedQuantity = await OrderDetails.findOne({
+    let {orderId, productId} = req.body
+    let updatedQuantity = await OrderProduct.findOne({
       where: {
-        itemId: req.body.itemId,
+        productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
-    let newQuantity = await updatedQuantity.update({
+    await updatedQuantity.update({
       quantity: req.body.quantity
     })
-    res.status(201).json(newQuantity)
+
+    let {products} = await Order.findOne({
+      where: {id: orderId},
+      include: [{model: Product, where: {id: productId}}]
+    })
+    let updatedQuantityItem = products[0]
+    res.status(201).json(updatedQuantityItem)
   } catch (error) {
     next(error)
   }
@@ -49,13 +74,13 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
   try {
-    let deleted = await OrderDetails.destroy({
+    await OrderProduct.destroy({
       where: {
-        itemId: req.body.itemId,
+        productId: req.body.productId,
         orderId: req.body.orderId
       }
     })
-    res.status(204).json(deleted)
+    res.status(204)
   } catch (error) {
     next(error)
   }

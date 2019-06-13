@@ -1,23 +1,27 @@
 import React from 'react'
-import {getSingleProductThunk} from '../store/product'
+import {getProductStyleThunk} from '../store/product'
 import {connect} from 'react-redux'
 
 class SingleProductDetails extends React.Component {
   componentDidMount() {
-    this.props.getSingleProductThunk(this.props.match.params.id)
+    let params = new URLSearchParams(document.location.search)
+    let productName = params.get('name')
+    this.props.getProductStyleThunk(productName)
   }
 
   render() {
     if (this.props.loading) {
       return <div>LOADING...</div>
     }
-    let {product} = this.props
-    return (
+    let {productStyle} = this.props
+    return productStyle.length < 1 ? (
+      ''
+    ) : (
       <div>
-        <h1>{product.name}</h1>
-        <img src={product.imageUrl} width="75px" height="75px" />
-        <p>{product.description}</p>
-        <p>${product.price}</p>
+        <h1>{productStyle[0].name}</h1>
+        <img src={productStyle[0].imageUrl} width="75px" height="75px" />
+        <p>{productStyle[0].description}</p>
+        <p>${productStyle[0].price}</p>
         <div>
           <label>Quantity: </label>
           <select name="Quantity">
@@ -31,13 +35,11 @@ class SingleProductDetails extends React.Component {
         <div>
           <label>Size: </label>
           <select name="Size">
-            {product.items && product.items.length > 0
-              ? product.items.map(item => (
-                  <option key={item.id} value={item.id}>
-                    {item.size}
-                  </option>
-                ))
-              : ''}
+            {productStyle.map(product => (
+              <option key={product.id} value={product.id}>
+                {product.size}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -45,12 +47,12 @@ class SingleProductDetails extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  product: state.product.product,
+  productStyle: state.product.productStyle,
   loading: state.product.loading
 })
 
 const mapDispatchToProps = dispatch => ({
-  getSingleProductThunk: id => dispatch(getSingleProductThunk(id))
+  getProductStyleThunk: name => dispatch(getProductStyleThunk(name))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
