@@ -20,6 +20,7 @@ class Cart extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+
   //SSW: Logic here is that if props.userId loads before component mounts,
   //then componentDidMount will trigger getOrderAndItemsThunk.
   //However, if component mounts before props.userId loads,
@@ -49,6 +50,7 @@ class Cart extends React.Component {
   // }
 
   render() {
+
     console.log('PROPS', this.props)
     //SSW: disabled loading check because it was disrupting loading initial shopping cart for Guests
     //we should consider removing "Loading" from our cart redux state
@@ -67,6 +69,7 @@ class Cart extends React.Component {
       <div>
         <h1>Cart</h1>
         {!cartItems.length && <p>There are no items in your cart</p>}
+
         {cartItems.length > 0 &&
           cartItems.map(item => (
             <div key={item.id}>
@@ -85,6 +88,7 @@ class Cart extends React.Component {
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
+
                   {/* this ternary and the one below triggers different actions
                    depending on whether user is logged in or guest */}
                   {this.props.userId ? (
@@ -118,7 +122,9 @@ class Cart extends React.Component {
               <p>{`Subtotal: $${(
                 item.order_products.quantity * item.price
               ).toFixed(2)}`}</p>
+
               {this.props.userId ? (
+
                 <button
                   type="button"
                   onClick={() => this.props.deleteItemThunk(order.id, item.id)}
@@ -135,11 +141,13 @@ class Cart extends React.Component {
               )}
             </div>
           ))}
+
         {!!cartItems.length && (
           <div>
             {/* Convert a number into a string, keeping only two decimals */}
             <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
             <div>
+
               {/* <Checkout
                 updateTotalThunk={this.props.updateTotalThunk}
                 //need to write: (1) submitOrderThunk [should change Order.status to "complete"], (2) maybe getShippingAddressThunk to update Order.shippingAddress?

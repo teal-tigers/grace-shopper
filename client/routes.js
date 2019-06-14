@@ -8,7 +8,8 @@ import {
   UserHome,
   AllProducts,
   SingleProductDetails,
-  Cart
+  Cart,
+  Checkout
 } from './components'
 import {me} from './store'
 
@@ -37,7 +38,13 @@ class Routes extends Component {
         />
         <Route
           path="/cart"
-          render={props => <Cart {...props} userId={this.props.userId} />}
+          render={props => (
+            <Cart
+              {...props}
+              userId={this.props.userId}
+              isLoggedIn={isLoggedIn}
+            />
+          )}
         />
         {/* Displays our AllProducts component as a fallback */}
 

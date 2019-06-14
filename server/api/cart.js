@@ -24,15 +24,28 @@ router.get('/', async (req, res, next) => {
 
 router.post('/total', async (req, res, next) => {
   try {
-    let {orderId, total} = req.body
+
+    let {orderId, address, total} = req.body
+
     let order = await Order.findOrCreate({
       where: {
         id: orderId
       }
     })
-    order = await order[0].update({
-      total: total
-    })
+
+    if (address.length < 1) {
+      order = await order[0].update({
+        total: total,
+        status: 'complete'
+      })
+    } else {
+      order = await order[0].update({
+        total: total,
+        address: address,
+        status: 'complete'
+      })
+    }
+
     res.status(201).json(order)
   } catch (error) {
     next(error)

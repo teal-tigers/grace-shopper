@@ -13,6 +13,8 @@ const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
 const CLEAR_CART = 'CLEAR_CART'
 const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 
+const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
+
 /**
  * INITIAL STATE
  */
@@ -27,11 +29,13 @@ const initialState = {
  */
 const gotOrder = order => ({type: GET_ORDER, order})
 const gotItems = items => ({type: GET_ITEMS, items})
+
 export const addedItem = item => ({type: ADD_ITEM, item})
 const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
 export const clearCart = () => ({
   type: CLEAR_CART
 })
+
 
 //action creators used for guests:
 
@@ -94,6 +98,15 @@ export const deleteItemThunk = (orderId, productId) => async dispatch => {
 
 //takes orderId and productId, and dispatches updatedQuantity with object that represents product object, joined with associated order_products info
 
+export const submitOrderThunk = (orderId, address, total) => async dispatch => {
+  try {
+    const {data} = await axios.put('/api/cart/total', {orderId, address, total})
+    dispatch(gotOrder(data))
+  } catch (error) {
+    console.log('There was an error with updateTotalThunk:', error)
+  }
+}
+
 export const updateQuantityThunk = (
   orderId,
   productId,
@@ -107,14 +120,6 @@ export const updateQuantityThunk = (
   }
 }
 
-export const updateTotalThunk = (orderId, total) => async dispatch => {
-  try {
-    const {data} = await axios.put('/api/cart/total', {orderId, total})
-    dispatch(gotOrder(data))
-  } catch (error) {
-    console.log('There was an error with updateTotalThunk:', error)
-  }
-}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -153,12 +158,14 @@ const reducer = (state = initialState, action) => {
         cartItems: guestUpdatedItems,
         loading: false
       }
+
     case CLEAR_CART:
       return {
         cartItems: [],
         order: {},
         loading: true
       }
+
     default:
       return state
   }
