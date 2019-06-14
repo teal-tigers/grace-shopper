@@ -32,13 +32,7 @@ class Routes extends Component {
         <Route path="/products" component={SingleProductDetails} />
         <Route
           path="/cart"
-          render={props => (
-            <Cart
-              {...props}
-              userId={this.props.userId}
-              isLoggedIn={isLoggedIn}
-            />
-          )}
+          render={props => <Cart {...props} userId={this.props.userId} />}
         />
         {/* Displays our AllProducts component as a fallback */}
 
