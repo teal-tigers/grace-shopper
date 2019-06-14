@@ -1,6 +1,6 @@
 import React from 'react'
 import {getProductStyleThunk} from '../store/product'
-import {addItemThunk} from '../store/cart'
+import {addItemThunk, getOrderAndItemsThunk} from '../store/cart'
 import {connect} from 'react-redux'
 
 class SingleProductDetails extends React.Component {
@@ -10,29 +10,37 @@ class SingleProductDetails extends React.Component {
       quantity: '',
       size: ''
     }
-    this.handleChangeQunatity = this.handleChangeQunatity.bind(this)
+    this.handleChangeQuantity = this.handleChangeQuantity.bind(this)
     this.handleChangeSize = this.handleChangeSize.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
     let params = new URLSearchParams(document.location.search)
     let productName = params.get('name')
+    this.props.getOrderAndItemsThunk(this.props.userId)
     this.props.getProductStyleThunk(productName)
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
     this.props.addItemThunk(
       this.props.order.id,
       this.state.size,
-      this.state.qunatity
+      this.state.quantity
     )
   }
 
-  handleChangeQunatity(event) {
+  handleChangeQuantity(event) {
     event.preventDefault()
     this.setState({quantity: event.target.value})
+    console.log(this.state)
   }
 
   handleChangeSize(event) {
     event.preventDefault()
     this.setState({size: event.target.value})
+    console.log(this.state)
   }
 
   render() {
@@ -51,7 +59,7 @@ class SingleProductDetails extends React.Component {
         <p>${productStyle[0].price}</p>
         <div>
           <label>Quantity: </label>
-          <select onChange={this.handleChangeQunatity} name="Quantity">
+          <select onChange={this.handleChangeQuantity} name="Quantity">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -70,16 +78,7 @@ class SingleProductDetails extends React.Component {
           </select>
         </div>
         <div>
-          <button
-            type="submit"
-            onClick={() =>
-              this.props.addItemThunk(
-                order.id,
-                this.state.size,
-                this.state.quantity
-              )
-            }
-          >
+          <button type="submit" onClick={this.handleSubmit}>
             Add To Cart
           </button>
         </div>
@@ -95,6 +94,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getProductStyleThunk: name => dispatch(getProductStyleThunk(name)),
+  getOrderAndItemsThunk: userId => dispatch(getOrderAndItemsThunk(userId)),
   addItemThunk: (orderId, productId, quantity) =>
     dispatch(addItemThunk(orderId, productId, quantity))
 })

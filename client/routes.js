@@ -31,7 +31,12 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={AllProducts} />
-        <Route path="/products" component={SingleProductDetails} />
+        <Route
+          path="/products"
+          render={props => (
+            <SingleProductDetails {...props} userId={this.props.userId} />
+          )}
+        />
         <Route
           path="/cart"
           render={props => <Cart {...props} userId={this.props.userId} />}
