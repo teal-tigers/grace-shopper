@@ -97,7 +97,14 @@ export const deleteItemThunk = (orderId, productId) => async dispatch => {
 
 export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   try {
-    const {data} = await axios.put('/api/cart/total', {orderId, address, total})
+    console.log(
+      `SUBMIT ORDER THUNK: OrderID: ${orderId}, ADDRESS: ${address}, total: ${total}`
+    )
+    const {data} = await axios.post('/api/cart/total', {
+      orderId,
+      address,
+      total
+    })
     dispatch(gotOrder(data))
   } catch (error) {
     console.log('There was an error with updateTotalThunk:', error)

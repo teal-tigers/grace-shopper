@@ -143,10 +143,11 @@ class Cart extends React.Component {
             {/* Convert a number into a string, keeping only two decimals */}
             <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
             <div>
-              {/* <Checkout
-                updateTotalThunk={this.props.updateTotalThunk}
-                //need to write: (1) submitOrderThunk [should change Order.status to "complete"], (2) maybe getShippingAddressThunk to update Order.shippingAddress?
-              /> */}
+              <Checkout
+                orderId={this.props.order.id}
+                total={orderTotal}
+                user={this.props.user}
+              />
             </div>
           </div>
         )}
@@ -158,7 +159,8 @@ class Cart extends React.Component {
 const mapState = state => ({
   cartItems: state.cart.cartItems,
   order: state.cart.order,
-  loading: state.cart.loading
+  loading: state.cart.loading,
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({

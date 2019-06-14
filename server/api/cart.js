@@ -24,8 +24,11 @@ router.get('/', async (req, res, next) => {
 
 router.post('/total', async (req, res, next) => {
   try {
-
     let {orderId, address, total} = req.body
+
+    console.log(
+      `SUBMIT ORDER API: OrderID: ${orderId}, ADDRESS: ${address}, total: ${total}`
+    )
 
     let order = await Order.findOrCreate({
       where: {
@@ -41,7 +44,7 @@ router.post('/total', async (req, res, next) => {
     } else {
       order = await order[0].update({
         total: total,
-        address: address,
+        shippingAddress: address,
         status: 'complete'
       })
     }
