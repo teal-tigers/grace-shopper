@@ -34,7 +34,13 @@ class Routes extends Component {
         <Route path="/products" component={SingleProductDetails} />
         <Route
           path="/cart"
-          render={props => <Cart {...props} userId={this.props.userId} />}
+          render={props => (
+            <Cart
+              {...props}
+              userId={this.props.userId}
+              isLoggedIn={isLoggedIn}
+            />
+          )}
         />
         {/* Displays our AllProducts component as a fallback */}
 
@@ -57,8 +63,7 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => ({
-  loadInitialData: () => dispatch(me()),
-  getOrderAndItemsThunk: orderId => dispatch(getOrderAndItemsThunk(orderId))
+  loadInitialData: () => dispatch(me())
 })
 
 // The `withRouter` wrapper makes sure that updates are not blocked
