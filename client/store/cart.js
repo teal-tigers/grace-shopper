@@ -10,6 +10,8 @@ const GET_ITEMS = 'GET_ITEMS'
 const ADD_ITEM = 'ADD_ITEM'
 const DELETE_ITEM = 'DELETE_ITEM'
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
+const CLEAR_CART = 'CLEAR_CART'
+const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 
 const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 
@@ -27,7 +29,13 @@ const initialState = {
  */
 const gotOrder = order => ({type: GET_ORDER, order})
 const gotItems = items => ({type: GET_ITEMS, items})
-const addedItem = item => ({type: ADD_ITEM, item})
+
+export const addedItem = item => ({type: ADD_ITEM, item})
+const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
+export const clearCart = () => ({
+  type: CLEAR_CART
+})
+
 
 //action creators used for guests:
 
@@ -66,7 +74,11 @@ export const addItemThunk = (
   quantity
 ) => async dispatch => {
   try {
+    // console.log('OrderId ', orderId)
+    // console.log('productId ', productId)
+    // console.log('Quantity ', quantity)
     const {data} = await axios.post(`/api/cart`, {orderId, productId, quantity})
+    console.log(data)
     dispatch(addedItem(data))
   } catch (error) {
     console.log('There was an error with addItemThunk:', error)
@@ -94,6 +106,20 @@ export const submitOrderThunk = (orderId, address, total) => async dispatch => {
     console.log('There was an error with updateTotalThunk:', error)
   }
 }
+
+export const updateQuantityThunk = (
+  orderId,
+  productId,
+  quantity
+) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/cart`, {orderId, productId, quantity})
+    dispatch(updatedQuantity(data))
+  } catch (error) {
+    console.log('There was an error with updateQuantityThunk:', error)
+  }
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -132,6 +158,14 @@ const reducer = (state = initialState, action) => {
         cartItems: guestUpdatedItems,
         loading: false
       }
+
+    case CLEAR_CART:
+      return {
+        cartItems: [],
+        order: {},
+        loading: true
+      }
+
     default:
       return state
   }

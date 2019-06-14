@@ -24,12 +24,15 @@ router.get('/', async (req, res, next) => {
 
 router.post('/total', async (req, res, next) => {
   try {
+
     let {orderId, address, total} = req.body
+
     let order = await Order.findOrCreate({
       where: {
         id: orderId
       }
     })
+
     if (address.length < 1) {
       order = await order[0].update({
         total: total,
@@ -42,6 +45,7 @@ router.post('/total', async (req, res, next) => {
         status: 'complete'
       })
     }
+
     res.status(201).json(order)
   } catch (error) {
     next(error)
@@ -51,14 +55,17 @@ router.post('/total', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     let {orderId, productId} = req.body
+    // console.log('This is the productId: ', productId)
+    // console.log('This is the orderId ', orderId)
     let [orderProductEntry] = await OrderProduct.findOrCreate({
       where: {
         productId: productId,
         orderId: orderId
       }
     })
+
     let oldQuantity = orderProductEntry.quantity
-    let newQuantity = oldQuantity + req.body.quantity
+    let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
     await orderProductEntry.update({
       quantity: newQuantity
     })
@@ -83,7 +90,7 @@ router.put('/', async (req, res, next) => {
       }
     })
     await updatedQuantity.update({
-      quantity: req.body.quantity
+      quantity: parseInt(req.body.quantity, 10)
     })
 
     let {products} = await Order.findOne({

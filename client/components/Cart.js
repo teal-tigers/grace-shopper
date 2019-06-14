@@ -20,17 +20,22 @@ class Cart extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  // componentDidMount() {
-  //   if (this.props.userId) {
-  //     this.props.getOrderAndItemsThunk(this.props.userId)
-  //   }
-  // }
 
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.userId !== prevProps.userId) {
-  //     this.props.getOrderAndItemsThunk(this.props.userId)
-  //   }
-  // }
+  //SSW: Logic here is that if props.userId loads before component mounts,
+  //then componentDidMount will trigger getOrderAndItemsThunk.
+  //However, if component mounts before props.userId loads,
+  //then componentDidUpdate will trigger getOrderAndItemsThunk
+  componentDidMount() {
+    if (this.props.userId) {
+      this.props.getOrderAndItemsThunk()
+    }
+  }
+
+  componentDidUpdate(prev) {
+    if (this.props.userId !== prev.userId) {
+      this.props.getOrderAndItemsThunk()
+    }
+  }
 
   handleChange(event) {
     event.preventDefault()
@@ -45,12 +50,17 @@ class Cart extends React.Component {
   // }
 
   render() {
-    if (!this.props.loading) {
-      return <div>LOADING</div>
-    }
-    const {cartItems, order, isLoggedIn} = this.props
+
+    console.log('PROPS', this.props)
+    //SSW: disabled loading check because it was disrupting loading initial shopping cart for Guests
+    //we should consider removing "Loading" from our cart redux state
+    // if (this.props.loading) {
+    //   return <div>LOADING</div>
+    // }
+    const {cartItems, order} = this.props
 
     // helper func to calculate order total
+
     const orderTotal = cartItems.reduce((acc, val) => {
       return acc + val.order_products.quantity * val.price
     }, 0)
@@ -59,10 +69,12 @@ class Cart extends React.Component {
       <div>
         <h1>Cart</h1>
         {!cartItems.length && <p>There are no items in your cart</p>}
-        {!!cartItems.length &&
+
+        {cartItems.length > 0 &&
           cartItems.map(item => (
             <div key={item.id}>
               <p>{`Item: ${item.name}`}</p>
+              <p>{`Size: ${item.size}`}</p>
               <p>{`Price: ${item.price}`}</p>
               <p>
                 {`Quantity: ${item.order_products.quantity}`}
@@ -76,7 +88,10 @@ class Cart extends React.Component {
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
-                  {isLoggedIn ? (
+
+                  {/* this ternary and the one below triggers different actions
+                   depending on whether user is logged in or guest */}
+                  {this.props.userId ? (
                     <button
                       type="submit"
                       onClick={() =>
@@ -108,7 +123,8 @@ class Cart extends React.Component {
                 item.order_products.quantity * item.price
               ).toFixed(2)}`}</p>
 
-              {this.props.isloggedIn ? (
+              {this.props.userId ? (
+
                 <button
                   type="button"
                   onClick={() => this.props.deleteItemThunk(order.id, item.id)}
@@ -131,12 +147,11 @@ class Cart extends React.Component {
             {/* Convert a number into a string, keeping only two decimals */}
             <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
             <div>
-              <h2>Complete Checkout</h2>
-              <Checkout
+
+              {/* <Checkout
                 updateTotalThunk={this.props.updateTotalThunk}
-                orderTotal={this.props.orderTotal}
                 //need to write: (1) submitOrderThunk [should change Order.status to "complete"], (2) maybe getShippingAddressThunk to update Order.shippingAddress?
-              />
+              /> */}
             </div>
           </div>
         )}

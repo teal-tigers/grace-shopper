@@ -11,16 +11,14 @@ import {
   Cart,
   Checkout
 } from './components'
-import {getOrderAndItemsThunk} from './store/cart'
 import {me} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  async componentDidMount() {
-    await this.props.loadInitialData()
-    // await this.props.getOrderAndItemsThunk(this.props.userId)
+  componentDidMount() {
+    this.props.loadInitialData()
   }
 
   render() {
@@ -32,7 +30,12 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={AllProducts} />
-        <Route path="/products" component={SingleProductDetails} />
+        <Route
+          path="/products"
+          render={props => (
+            <SingleProductDetails {...props} userId={this.props.userId} />
+          )}
+        />
         <Route
           path="/cart"
           render={props => (
