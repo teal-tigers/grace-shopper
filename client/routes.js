@@ -10,16 +10,14 @@ import {
   SingleProductDetails,
   Cart
 } from './components'
-import {getOrderAndItemsThunk} from './store/cart'
 import {me} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  async componentDidMount() {
-    await this.props.loadInitialData()
-    // await this.props.getOrderAndItemsThunk(this.props.userId)
+  componentDidMount() {
+    this.props.loadInitialData()
   }
 
   render() {
@@ -57,8 +55,7 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => ({
-  loadInitialData: () => dispatch(me()),
-  getOrderAndItemsThunk: orderId => dispatch(getOrderAndItemsThunk(orderId))
+  loadInitialData: () => dispatch(me())
 })
 
 // The `withRouter` wrapper makes sure that updates are not blocked

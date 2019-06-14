@@ -6,7 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-const ADD_USER = 'ADD_USER'
+// const ADD_USER = 'ADD_USER'
 
 /**
  * INITIAL STATE
@@ -18,7 +18,8 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-const addUser = user => ({type: ADD_USER, user})
+//SSW: Consolidated ADD_USER action with GET_USER because they perform the same action in the reducer (also we never had ADD_USER case in reducer)
+// const addUser = user => ({type: ADD_USER, user})
 
 /**
  * THUNK CREATORS
@@ -61,9 +62,11 @@ export const addUserThunk = (
       password,
       address
     })
-    dispatch(addUser(data))
+    //SSW: this will redirect user to home page after they create an account
+    dispatch(getUser(data))
+    history.push('/home')
   } catch (error) {
-    console.log('There is an error with addUserThunk')
+    console.log('There is an error with addUserThunk: ', error)
   }
 }
 
