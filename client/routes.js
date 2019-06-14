@@ -43,7 +43,6 @@ class Routes extends Component {
             />
           )}
         />
-        <Route path="/checkout" component={Checkout} />
         {/* Displays our AllProducts component as a fallback */}
 
         <Route path="/" component={AllProducts} />

@@ -11,10 +11,7 @@ const ADD_ITEM = 'ADD_ITEM'
 const DELETE_ITEM = 'DELETE_ITEM'
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
 
-const GUEST_ADD_ITEM = 'GUEST_ADD_ITEM'
 const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
-
-const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 /**
  * INITIAL STATE
@@ -31,9 +28,6 @@ const initialState = {
 const gotOrder = order => ({type: GET_ORDER, order})
 const gotItems = items => ({type: GET_ITEMS, items})
 const addedItem = item => ({type: ADD_ITEM, item})
-const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
-
-const submitedOrder = order => ({type: SUBMIT_ORDER, order})
 
 //action creators used for guests:
 
@@ -92,32 +86,10 @@ export const deleteItemThunk = (orderId, productId) => async dispatch => {
 
 //takes orderId and productId, and dispatches updatedQuantity with object that represents product object, joined with associated order_products info
 
-export const updateQuantityThunk = (
-  orderId,
-  productId,
-  quantity
-) => async dispatch => {
+export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   try {
-    const {data} = await axios.put(`/api/cart`, {orderId, productId, quantity})
-    dispatch(updatedQuantity(data))
-  } catch (error) {
-    console.log('There was an error with updateQuantityThunk:', error)
-  }
-}
-
-export const updateTotalThunk = (orderId, total) => async dispatch => {
-  try {
-    const {data} = await axios.put('/api/cart/total', {orderId, total})
+    const {data} = await axios.put('/api/cart/total', {orderId, address, total})
     dispatch(gotOrder(data))
-  } catch (error) {
-    console.log('There was an error with updateTotalThunk:', error)
-  }
-}
-
-export const submitOrderThunk = (orderId, status) => async dispatch => {
-  try {
-    const {data} = await axios.put('/api/cart/total', {orderId, status})
-    dispatch(submitedOrder(data))
   } catch (error) {
     console.log('There was an error with updateTotalThunk:', error)
   }
@@ -160,12 +132,6 @@ const reducer = (state = initialState, action) => {
         cartItems: guestUpdatedItems,
         loading: false
       }
-    // case UPDATE_QUANTITY:
-    //   let wow = state.order.status.map(curStatus => 'complete')
-    //   return {
-    //     ...state,
-    //     order: wow,
-    //   }
     default:
       return state
   }

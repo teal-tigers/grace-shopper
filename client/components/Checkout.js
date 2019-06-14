@@ -29,12 +29,12 @@ class Checkout extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.updateTotalThunk(this.state)
-    submitOrderThunk(this.state.order.id, this.state.status)
+    // this.props.updateTotalThunk(this.state)
+    submitOrderThunk(this.state.order.id)
   }
 
   render() {
-    const {orderTotal, updateTotalThunk} = this.props
+    const {orderTotal} = this.props
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -61,8 +61,8 @@ class Checkout extends React.Component {
 }
 
 const mapDispatch = dispatch => ({
-  submitOrderThunk: (orderId, status) =>
-    dispatch(submitOrderThunk(orderId, status))
+  submitOrderThunk: (orderId, address, total) =>
+    dispatch(submitOrderThunk(orderId, address, total))
 })
 
 export default connect(null, mapDispatch)(Checkout)
