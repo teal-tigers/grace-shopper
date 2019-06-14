@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Order = require('./order')
 
 const User = db.define('user', {
   fullName: {
@@ -78,4 +79,11 @@ User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 User.beforeBulkCreate(users => {
   users.forEach(setSaltAndPassword)
+})
+
+//SSW: This hook ensures that after a new user is created,
+//a new order entry is created for that user.
+User.afterCreate(async instance => {
+  let order = await Order.create()
+  await instance.setOrder(order)
 })

@@ -10,8 +10,7 @@ const GET_ITEMS = 'GET_ITEMS'
 const ADD_ITEM = 'ADD_ITEM'
 const DELETE_ITEM = 'DELETE_ITEM'
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
-
-const GUEST_ADD_ITEM = 'GUEST_ADD_ITEM'
+const CLEAR_CART = 'CLEAR_CART'
 const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 
 /**
@@ -30,6 +29,9 @@ const gotOrder = order => ({type: GET_ORDER, order})
 const gotItems = items => ({type: GET_ITEMS, items})
 const addedItem = item => ({type: ADD_ITEM, item})
 const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
+export const clearCart = () => ({
+  type: CLEAR_CART
+})
 
 //action creators used for guests:
 
@@ -146,6 +148,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         cartItems: guestUpdatedItems,
         loading: false
+      }
+    case CLEAR_CART:
+      return {
+        cartItems: [],
+        order: {},
+        loading: true
       }
     default:
       return state

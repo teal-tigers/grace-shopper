@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, clearCart} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
@@ -46,6 +46,9 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
+      //SSW: clearCart action will restore the local
+      //redux cart state to empty after a user logs out
+      dispatch(clearCart())
     }
   }
 }

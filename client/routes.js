@@ -10,16 +10,14 @@ import {
   SingleProductDetails,
   Cart
 } from './components'
-import {getOrderAndItemsThunk} from './store/cart'
 import {me} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  async componentDidMount() {
-    await this.props.loadInitialData()
-    // await this.props.getOrderAndItemsThunk(this.props.userId)
+  componentDidMount() {
+    this.props.loadInitialData()
   }
 
   render() {
