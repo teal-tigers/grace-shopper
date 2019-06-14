@@ -7,11 +7,11 @@ class SingleProductDetails extends React.Component {
   constructor() {
     super()
     this.state = {
-      quantity: ''
-      // size: ''
+      quantity: '',
+      size: ''
     }
     this.handleChangeQunatity = this.handleChangeQunatity.bind(this)
-    // this.handleChangeSize = this.handleChangeSize.bind(this)
+    this.handleChangeSize = this.handleChangeSize.bind(this)
   }
 
   componentDidMount() {
@@ -20,7 +20,7 @@ class SingleProductDetails extends React.Component {
     this.props.getProductStyleThunk(productName)
     this.props.addItemThunk(
       this.props.order.id,
-      product.id,
+      this.state.size,
       this.state.qunatity
     )
   }
@@ -30,10 +30,10 @@ class SingleProductDetails extends React.Component {
     this.setState({quantity: event.target.value})
   }
 
-  // handleChangeSize(event) {
-  //   event.preventDefault()
-  //   // this.setState({size: event.target.value})
-  // }
+  handleChangeSize(event) {
+    event.preventDefault()
+    this.setState({size: event.target.value})
+  }
 
   render() {
     console.log(this)
@@ -61,7 +61,7 @@ class SingleProductDetails extends React.Component {
         </div>
         <div>
           <label>Size: </label>
-          <select name="Size">
+          <select onChange={this.handleChangeSize} name="Size">
             {productStyle.map(product => (
               <option key={product.id} value={product.id}>
                 {product.size}
@@ -73,7 +73,11 @@ class SingleProductDetails extends React.Component {
           <button
             type="submit"
             onClick={() =>
-              this.props.addItemThunk(order.id, product.id, this.state.quantity)
+              this.props.addItemThunk(
+                order.id,
+                this.state.size,
+                this.state.quantity
+              )
             }
           >
             Add To Cart
