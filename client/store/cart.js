@@ -27,7 +27,7 @@ const initialState = {
  */
 const gotOrder = order => ({type: GET_ORDER, order})
 const gotItems = items => ({type: GET_ITEMS, items})
-const addedItem = item => ({type: ADD_ITEM, item})
+export const addedItem = item => ({type: ADD_ITEM, item})
 const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
 export const clearCart = () => ({
   type: CLEAR_CART
@@ -70,9 +70,9 @@ export const addItemThunk = (
   quantity
 ) => async dispatch => {
   try {
-    console.log('OrderId ', orderId)
-    console.log('productId ', productId)
-    console.log('Quantity ', quantity)
+    // console.log('OrderId ', orderId)
+    // console.log('productId ', productId)
+    // console.log('Quantity ', quantity)
     const {data} = await axios.post(`/api/cart`, {orderId, productId, quantity})
     console.log(data)
     dispatch(addedItem(data))

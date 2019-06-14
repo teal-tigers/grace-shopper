@@ -50,8 +50,9 @@ router.post('/', async (req, res, next) => {
         orderId: orderId
       }
     })
+
     let oldQuantity = orderProductEntry.quantity
-    let newQuantity = oldQuantity + req.body.quantity
+    let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
     await orderProductEntry.update({
       quantity: newQuantity
     })
@@ -76,7 +77,7 @@ router.put('/', async (req, res, next) => {
       }
     })
     await updatedQuantity.update({
-      quantity: req.body.quantity
+      quantity: parseInt(req.body.quantity, 10)
     })
 
     let {products} = await Order.findOne({

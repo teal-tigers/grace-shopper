@@ -1,6 +1,6 @@
 import React from 'react'
 import {getProductStyleThunk} from '../store/product'
-import {addItemThunk, getOrderAndItemsThunk} from '../store/cart'
+import {addItemThunk, getOrderAndItemsThunk, addedItem} from '../store/cart'
 import {connect} from 'react-redux'
 
 class SingleProductDetails extends React.Component {
@@ -18,33 +18,44 @@ class SingleProductDetails extends React.Component {
   componentDidMount() {
     let params = new URLSearchParams(document.location.search)
     let productName = params.get('name')
-    this.props.getOrderAndItemsThunk(this.props.userId)
+    this.props.getOrderAndItemsThunk()
     this.props.getProductStyleThunk(productName)
   }
 
   handleSubmit(event) {
+    console.dir('product: ', this.state.size)
     event.preventDefault()
-    this.props.addItemThunk(
-      this.props.order.id,
-      this.state.size,
-      this.state.quantity
-    )
+    if (this.props.userId) {
+      this.props.addItemThunk(
+        this.props.order.id,
+        this.state.size,
+        this.state.quantity
+      )
+    } else {
+      let item = {}
+      this.props.productStyle.forEach(product => {
+        if (product.id === parseInt(this.state.size, 10)) {
+          item = product
+        }
+      })
+      this.props.addedItem({
+        ...item,
+        order_products: {quantity: this.state.quantity}
+      })
+    }
   }
 
   handleChangeQuantity(event) {
     event.preventDefault()
     this.setState({quantity: event.target.value})
-    console.log(this.state)
   }
 
   handleChangeSize(event) {
     event.preventDefault()
     this.setState({size: event.target.value})
-    console.log(this.state)
   }
 
   render() {
-    console.log(this)
     if (this.props.loading) {
       return <div>LOADING...</div>
     }
@@ -60,6 +71,7 @@ class SingleProductDetails extends React.Component {
         <div>
           <label>Quantity: </label>
           <select onChange={this.handleChangeQuantity} name="Quantity">
+            <option value="">-</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -70,6 +82,7 @@ class SingleProductDetails extends React.Component {
         <div>
           <label>Size: </label>
           <select onChange={this.handleChangeSize} name="Size">
+            <option value="">-</option>
             {productStyle.map(product => (
               <option key={product.id} value={product.id}>
                 {product.size}
@@ -96,7 +109,8 @@ const mapDispatchToProps = dispatch => ({
   getProductStyleThunk: name => dispatch(getProductStyleThunk(name)),
   getOrderAndItemsThunk: userId => dispatch(getOrderAndItemsThunk(userId)),
   addItemThunk: (orderId, productId, quantity) =>
-    dispatch(addItemThunk(orderId, productId, quantity))
+    dispatch(addItemThunk(orderId, productId, quantity)),
+  addedItem: item => dispatch(addedItem(item))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
