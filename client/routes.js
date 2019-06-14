@@ -8,7 +8,8 @@ import {
   UserHome,
   AllProducts,
   SingleProductDetails,
-  Cart
+  Cart,
+  Checkout
 } from './components'
 import {getOrderAndItemsThunk} from './store/cart'
 import {me} from './store'
@@ -34,8 +35,15 @@ class Routes extends Component {
         <Route path="/products" component={SingleProductDetails} />
         <Route
           path="/cart"
-          render={props => <Cart {...props} userId={this.props.userId} />}
+          render={props => (
+            <Cart
+              {...props}
+              userId={this.props.userId}
+              isLoggedIn={isLoggedIn}
+            />
+          )}
         />
+        <Route path="/checkout" component={Checkout} />
         {/* Displays our AllProducts component as a fallback */}
 
         <Route path="/" component={AllProducts} />
@@ -57,8 +65,7 @@ const mapState = state => {
 }
 
 const mapDispatch = dispatch => ({
-  loadInitialData: () => dispatch(me()),
-  getOrderAndItemsThunk: orderId => dispatch(getOrderAndItemsThunk(orderId))
+  loadInitialData: () => dispatch(me())
 })
 
 // The `withRouter` wrapper makes sure that updates are not blocked
