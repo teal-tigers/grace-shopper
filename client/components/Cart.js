@@ -71,6 +71,7 @@ class Cart extends React.Component {
           cartItems.map(item => (
             <div key={item.id}>
               <p>{`Item: ${item.name}`}</p>
+              <p>{`Size: ${item.size}`}</p>
               <p>{`Price: ${item.price}`}</p>
               <p>
                 {`Quantity: ${item.order_products.quantity}`}
