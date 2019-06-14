@@ -7,8 +7,7 @@ import {
   deleteItemThunk,
   updateQuantityThunk,
   guestUpdatedQuantityAction,
-  deletedItemAction,
-  updateTotalThunk
+  deletedItemAction
 } from '../store/cart'
 
 class Cart extends React.Component {
@@ -19,7 +18,6 @@ class Cart extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
   }
-
 
   //SSW: Logic here is that if props.userId loads before component mounts,
   //then componentDidMount will trigger getOrderAndItemsThunk.
@@ -50,7 +48,6 @@ class Cart extends React.Component {
   // }
 
   render() {
-
     console.log('PROPS', this.props)
     //SSW: disabled loading check because it was disrupting loading initial shopping cart for Guests
     //we should consider removing "Loading" from our cart redux state
@@ -124,7 +121,6 @@ class Cart extends React.Component {
               ).toFixed(2)}`}</p>
 
               {this.props.userId ? (
-
                 <button
                   type="button"
                   onClick={() => this.props.deleteItemThunk(order.id, item.id)}
@@ -147,7 +143,6 @@ class Cart extends React.Component {
             {/* Convert a number into a string, keeping only two decimals */}
             <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
             <div>
-
               {/* <Checkout
                 updateTotalThunk={this.props.updateTotalThunk}
                 //need to write: (1) submitOrderThunk [should change Order.status to "complete"], (2) maybe getShippingAddressThunk to update Order.shippingAddress?
@@ -174,11 +169,8 @@ const mapDispatch = dispatch => ({
     dispatch(updateQuantityThunk(orderId, productId, quantity))
   },
   deletedItemAction: itemId => dispatch(deletedItemAction(itemId)),
-  guestUpdatedQuantityAction: item =>
-    dispatch(guestUpdatedQuantityAction(item)),
+  guestUpdatedQuantityAction: item => dispatch(guestUpdatedQuantityAction(item))
   //to be used on checkout button.  updateTotalThunk will update Order.total to total calculated by frontend component
-  updateTotalThunk: (orderId, total) =>
-    dispatch(updateTotalThunk(orderId, total))
 })
 
 export default connect(mapState, mapDispatch)(Cart)

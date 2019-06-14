@@ -13,8 +13,6 @@ const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
 const CLEAR_CART = 'CLEAR_CART'
 const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 
-const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
-
 /**
  * INITIAL STATE
  */
@@ -35,7 +33,6 @@ const updatedQuantity = item => ({type: UPDATE_QUANTITY, item})
 export const clearCart = () => ({
   type: CLEAR_CART
 })
-
 
 //action creators used for guests:
 
@@ -119,7 +116,6 @@ export const updateQuantityThunk = (
     console.log('There was an error with updateQuantityThunk:', error)
   }
 }
-
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
