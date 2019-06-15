@@ -110,6 +110,7 @@ export const submitOrderThunk = (orderId, address, total) => async dispatch => {
 }
 
 export const saveGuestCartThunk = cartItems => async dispatch => {
+  console.log('SAVEGUESTCARTTHUNK')
   let {data} = await axios.put('/api/cart/newUserOrder', {cartItems})
   let itemList = data.products
   delete data.products

@@ -7,6 +7,7 @@ import {saveGuestCartThunk} from '../store/cart'
 class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getAllProductsThunk()
+    console.log('ISLOGGEDIN', this.props.isLoggedIn)
     if (this.props.isLoggedIn) {
       this.props.saveGuestCartThunk(this.props.cartItems)
     }
@@ -40,7 +41,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllProductsThunk: () => dispatch(getAllProductsThunk()),
-  saveGuestCartThunk: cartItems => saveGuestCartThunk(cartItems)
+  saveGuestCartThunk: cartItems => dispatch(saveGuestCartThunk(cartItems))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)

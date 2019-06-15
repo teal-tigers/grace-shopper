@@ -48,21 +48,39 @@ router.post('/total', async (req, res, next) => {
   }
 })
 
-router.post('/newUserOrder', async (req, res, next) => {
+router.put('/newUserOrder', async (req, res, next) => {
   try {
     let order = await Order.findOne({
       where: {userId: req.user.id, status: 'pending'}
     })
     //populate order with items in cart
-    req.body.cartItems.forEach(item => {
-      let product = Product.findOne({where: {id: item.id}})
-      order.addProduct(product)
+    req.body.cartItems.forEach(async item => {
+      try {
+        //if product exists in order, increment quantity
+        //else add product
+        // let product = await Product.findOne({where: {id: item.id}})
+        let [orderProductEntry] = await OrderProduct.findOrCreate({
+          where: {
+            productId: item.id,
+            orderId: order.id
+          }
+        })
+        // let orderProductEntry = await OrderProduct.findOne({
+        //   where: {orderId: order.id, productId: item.id}
+        // })
+        let newQuantity =
+          orderProductEntry.quantity +
+          parseInt(item.order_products.quantity, 10)
+        await orderProductEntry.update({quantity: newQuantity})
+      } catch (error) {
+        next(error)
+      }
     })
     order = await Order.findOne({
       where: {userId: req.user.id, status: 'pending'},
       include: [{model: Product}]
     })
-    req.status(201).json(order)
+    res.status(201).json(order)
   } catch (error) {
     next(error)
   }
