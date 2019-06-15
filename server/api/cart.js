@@ -4,15 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log('user: ', req.user)
-    let user = await User.findOne({
-      where: {id: req.user.id},
-      include: [{model: Order}]
-    })
-
-    let orderId = user.order.id
     let items = await Order.findOne({
-      where: {id: orderId, status: 'pending'},
+      where: {userId: req.user.id, status: 'pending'},
       include: [{model: Product}]
     })
     res.json(items)
@@ -55,6 +48,25 @@ router.post('/total', async (req, res, next) => {
   }
 })
 
+router.post('/newUserOrder', async (req, res, next) => {
+  try {
+    let order = await Order.findOne({
+      where: {userId: req.user.id, status: 'pending'}
+    })
+    //populate order with items in cart
+    req.body.cartItems.forEach(item => {
+      let product = Product.findOne({where: {id: item.id}})
+      order.addProduct(product)
+    })
+    order = await Order.findOne({
+      where: {userId: req.user.id, status: 'pending'},
+      include: [{model: Product}]
+    })
+    req.status(201).json(order)
+  } catch (error) {
+    next(error)
+  }
+})
 router.post('/', async (req, res, next) => {
   try {
     let {orderId, productId} = req.body

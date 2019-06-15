@@ -109,6 +109,15 @@ export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   }
 }
 
+export const saveGuestCartThunk = cartItems => async dispatch => {
+  let {data} = await axios.put('/api/cart/newUserOrder', {cartItems})
+  let itemList = data.products
+  delete data.products
+  let orderInfo = data
+  dispatch(gotItems(itemList))
+  dispatch(gotOrder(orderInfo))
+}
+
 export const updateQuantityThunk = (
   orderId,
   productId,
