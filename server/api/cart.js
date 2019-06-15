@@ -10,10 +10,8 @@ router.get('/', async (req, res, next) => {
     })
 
     let orderId = user.order.id
-
-    // await order.calculateTotal()
     let items = await Order.findOne({
-      where: {id: orderId},
+      where: {id: orderId, status: 'pending'},
       include: [{model: Product}]
     })
     res.json(items)
@@ -22,6 +20,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+//SSW: updates total amount, shipping address (if any), and status to "completed" when user submits their order, and creates a new order entry for the user's next "pending" order.
 router.post('/total', async (req, res, next) => {
   try {
     let {orderId, address, total} = req.body
@@ -44,6 +43,11 @@ router.post('/total', async (req, res, next) => {
         status: 'complete'
       })
     }
+
+    //create new pending order for user
+    let user = await User.findOne({where: {id: req.user.id}})
+    user.newOrder()
+
     res.status(201).json(order)
   } catch (error) {
     next(error)

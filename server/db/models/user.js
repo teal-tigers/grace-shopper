@@ -81,6 +81,12 @@ User.beforeBulkCreate(users => {
   users.forEach(setSaltAndPassword)
 })
 
+//SSW: instance method to create new pending order for user
+
+User.prototype.newOrder = async function() {
+  let order = await Order.create()
+  await this.setOrder(order)
+}
 //SSW: This hook ensures that after a new user is created,
 //a new order entry is created for that user.
 User.afterCreate(async instance => {
