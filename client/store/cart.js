@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../history'
@@ -140,9 +141,26 @@ const reducer = (state = initialState, action) => {
       //note that each "cartItem" will have quantity at cartItem.order_products.quantity
       return {...state, cartItems: action.items, loading: false}
     case ADD_ITEM:
+      //check if product already in item list and increment quantity
+      let inCart = false
+      let updatedItems = state.cartItems.map(item => {
+        if (item.id !== action.item.id) {
+          return item
+        } else {
+          inCart = true
+          let newItem = item
+          newItem.quantity =
+            parseInt(item.quantity, 10) + parseInt(action.item.quantity, 10)
+          return newItem
+        }
+      })
+      //if item is not in item list, add item to item list
+      if (!inCart) {
+        updatedItems.push(action.item)
+      }
       return {
         ...state,
-        cartItems: [...state.cartItems, action.item],
+        cartItems: updatedItems,
         loading: false
       }
     case DELETE_ITEM:
