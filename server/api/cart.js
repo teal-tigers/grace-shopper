@@ -4,6 +4,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
+    console.log('user: ', req.user)
     let user = await User.findOne({
       where: {id: req.user.id},
       include: [{model: Order}]
