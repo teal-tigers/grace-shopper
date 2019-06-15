@@ -149,8 +149,9 @@ const reducer = (state = initialState, action) => {
         } else {
           inCart = true
           let newItem = item
-          newItem.quantity =
-            parseInt(item.quantity, 10) + parseInt(action.item.quantity, 10)
+          newItem.order_products.quantity =
+            parseInt(item.order_products.quantity, 10) +
+            parseInt(action.item.order_products.quantity, 10)
           return newItem
         }
       })
