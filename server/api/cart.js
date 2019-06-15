@@ -97,7 +97,11 @@ router.post('/', async (req, res, next) => {
     })
 
     let oldQuantity = orderProductEntry.quantity
+    console.log('REQ BODY QUANTITY', req.body.quantity)
+    console.log('oldquantity', oldQuantity)
+    console.log('Typeof oldquant', typeof oldQuantity)
     let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
+    console.log('NEW QUANTITY', newQuantity)
     await orderProductEntry.update({
       quantity: newQuantity
     })

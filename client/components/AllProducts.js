@@ -7,9 +7,6 @@ import {saveGuestCartThunk} from '../store/cart'
 class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getAllProductsThunk()
-    if (this.props.isLoggedIn) {
-      this.props.saveGuestCartThunk(this.props.cartItems)
-    }
   }
 
   render() {
