@@ -31,12 +31,16 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     googleConfig,
     (token, refreshToken, profile, done) => {
       const googleId = profile.id
-      const name = profile.displayName
+
+      let name = profile.displayName
+      if (!name) {
+        name = 'Anonymous User'
+      }
       const email = profile.emails[0].value
 
       User.findOrCreate({
         where: {googleId},
-        defaults: {name, email}
+        defaults: {fullName: name, email}
       })
         .then(([user]) => done(null, user))
         .catch(done)
