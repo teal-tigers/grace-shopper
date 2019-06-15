@@ -109,11 +109,9 @@ async function seed() {
 
   //seed orders
   let cody = await User.findOne({where: {fullName: 'Cody'}})
-  let order = await Order.create({
-    status: 'pending'
-  })
+  let order = await Order.findOne({where: {userId: cody.id}})
   let boots = await Product.findAll({where: {size: '10'}})
-  await cody.setOrder(order)
+
   await order.setProducts(boots)
   await OrderProduct.update(
     {quantity: 5},
