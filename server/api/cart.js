@@ -18,7 +18,6 @@ router.get('/', async (req, res, next) => {
 router.post('/total', async (req, res, next) => {
   try {
     let {orderId, address, total} = req.body
-    console.log(`orderid: ${orderId}, address: ${address}, total: ${total}`)
     let order = await Order.findOrCreate({
       where: {
         id: orderId
