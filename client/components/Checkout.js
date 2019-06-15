@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {submitOrderThunk, clearCart} from '../store/cart'
+import {Signup} from './auth-form'
+import {Link} from 'react-router-dom'
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -31,7 +33,14 @@ class Checkout extends React.Component {
   }
 
   render() {
-    return (
+    return !this.props.user.id ? (
+      <div>
+        <span>Please sign up to checkout:</span>
+        <Link to="/signup">
+          <p>Signup</p>
+        </Link>
+      </div>
+    ) : (
       <form onSubmit={this.handleSubmit}>
         <h2>{this.props.user.fullName}</h2>
         <label htmlFor="address">Add Shipping Address</label>
