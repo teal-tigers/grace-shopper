@@ -25,11 +25,7 @@ router.get('/', async (req, res, next) => {
 router.post('/total', async (req, res, next) => {
   try {
     let {orderId, address, total} = req.body
-
-    console.log(
-      `SUBMIT ORDER API: OrderID: ${orderId}, ADDRESS: ${address}, total: ${total}`
-    )
-
+    console.log(`orderid: ${orderId}, address: ${address}, total: ${total}`)
     let order = await Order.findOrCreate({
       where: {
         id: orderId
@@ -48,7 +44,6 @@ router.post('/total', async (req, res, next) => {
         status: 'complete'
       })
     }
-
     res.status(201).json(order)
   } catch (error) {
     next(error)

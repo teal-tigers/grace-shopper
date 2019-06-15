@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {submitOrderThunk} from '../store/cart'
+import {submitOrderThunk, clearCart} from '../store/cart'
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -21,12 +21,13 @@ class Checkout extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('AKJHDFJKSHFJDKSDKF', this.props)
     this.props.submitOrderThunk(
       this.props.orderId,
       this.state.address,
       this.props.total
     )
+    this.props.clearCart()
+    this.setState({address: this.props.user.address})
   }
 
   render() {
@@ -48,7 +49,8 @@ class Checkout extends React.Component {
 
 const mapDispatch = dispatch => ({
   submitOrderThunk: (orderId, address, total) =>
-    dispatch(submitOrderThunk(orderId, address, total))
+    dispatch(submitOrderThunk(orderId, address, total)),
+  clearCart: () => dispatch(clearCart())
 })
 
 export default connect(null, mapDispatch)(Checkout)

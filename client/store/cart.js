@@ -106,6 +106,7 @@ export const submitOrderThunk = (orderId, address, total) => async dispatch => {
       total
     })
     dispatch(gotOrder(data))
+    history.push('thankyou')
   } catch (error) {
     console.log('There was an error with updateTotalThunk:', error)
   }

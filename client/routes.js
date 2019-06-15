@@ -9,7 +9,7 @@ import {
   AllProducts,
   SingleProductDetails,
   Cart,
-  Checkout
+  ThankYou
 } from './components'
 import {me} from './store'
 
@@ -36,6 +36,7 @@ class Routes extends Component {
             <SingleProductDetails {...props} userId={this.props.userId} />
           )}
         />
+        <Route path="/thankyou" component={ThankYou} />
         <Route
           path="/cart"
           render={props => (
