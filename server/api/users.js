@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const {Order} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -15,3 +16,32 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/account', async (req, res, next) => {
+  try {
+    if (req.user) {
+      const user = await User.findByPk(req.user.id, {
+        include: [{model: Order}]
+      })
+      res.json(user)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+// router.get('/account', async (req, res, next) => {
+//   try {
+//     if (req.user) {
+//       const user = await User.findOne({
+//         where: {
+//           email: req.user.email
+//         },
+//         include: [{model: Order}]
+//       })
+//       res.json(user)
+//     }
+//   } catch (error) {
+//     next(error)
+//   }
+// })
