@@ -3,6 +3,8 @@ import {getAllProductsThunk} from '../store/product'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
 import {saveGuestCartThunk} from '../store/cart'
+import CardColumns from 'react-bootstrap/CardColumns'
+import Container from 'react-bootstrap/Container'
 
 class AllProducts extends React.Component {
   componentDidMount() {
@@ -16,16 +18,15 @@ class AllProducts extends React.Component {
     let {products} = this.props
 
     return (
-      <div>
-        <h1>Custom Made Western Boots</h1>
-        <div>
+      <Container className="w-responsive text-center mx-auto p-3 mt-2">
+        <CardColumns>
           {products.map(product => (
             <div key={product.id}>
               <SingleProduct product={product} />
             </div>
           ))}
-        </div>
-      </div>
+        </CardColumns>
+      </Container>
     )
   }
 }

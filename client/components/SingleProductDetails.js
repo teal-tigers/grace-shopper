@@ -2,6 +2,7 @@ import React from 'react'
 import {getProductStyleThunk} from '../store/product'
 import {addItemThunk, getOrderAndItemsThunk, addedItem} from '../store/cart'
 import {connect} from 'react-redux'
+import Card from 'react-bootstrap/Card'
 
 class SingleProductDetails extends React.Component {
   constructor() {
