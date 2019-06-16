@@ -4,14 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    let user = await User.findOne({
-      where: {id: req.user.id},
-      include: [{model: Order}]
-    })
-
-    let orderId = user.order.id
     let items = await Order.findOne({
-      where: {id: orderId, status: 'pending'},
+      where: {userId: req.user.id, status: 'pending'},
       include: [{model: Product}]
     })
     res.json(items)
@@ -24,7 +18,6 @@ router.get('/', async (req, res, next) => {
 router.post('/total', async (req, res, next) => {
   try {
     let {orderId, address, total} = req.body
-    console.log(`orderid: ${orderId}, address: ${address}, total: ${total}`)
     let order = await Order.findOrCreate({
       where: {
         id: orderId
@@ -54,6 +47,43 @@ router.post('/total', async (req, res, next) => {
   }
 })
 
+router.put('/newUserOrder', async (req, res, next) => {
+  try {
+    let order = await Order.findOne({
+      where: {userId: req.user.id, status: 'pending'}
+    })
+    //populate order with items in cart
+    req.body.cartItems.forEach(async item => {
+      try {
+        //if product exists in order, increment quantity
+        //else add product
+        // let product = await Product.findOne({where: {id: item.id}})
+        let [orderProductEntry] = await OrderProduct.findOrCreate({
+          where: {
+            productId: item.id,
+            orderId: order.id
+          }
+        })
+        // let orderProductEntry = await OrderProduct.findOne({
+        //   where: {orderId: order.id, productId: item.id}
+        // })
+        let newQuantity =
+          orderProductEntry.quantity +
+          parseInt(item.order_products.quantity, 10)
+        await orderProductEntry.update({quantity: newQuantity})
+      } catch (error) {
+        next(error)
+      }
+    })
+    order = await Order.findOne({
+      where: {userId: req.user.id, status: 'pending'},
+      include: [{model: Product}]
+    })
+    res.status(201).json(order)
+  } catch (error) {
+    next(error)
+  }
+})
 router.post('/', async (req, res, next) => {
   try {
     let {orderId, productId} = req.body
@@ -67,7 +97,11 @@ router.post('/', async (req, res, next) => {
     })
 
     let oldQuantity = orderProductEntry.quantity
+    console.log('REQ BODY QUANTITY', req.body.quantity)
+    console.log('oldquantity', oldQuantity)
+    console.log('Typeof oldquant', typeof oldQuantity)
     let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
+    console.log('NEW QUANTITY', newQuantity)
     await orderProductEntry.update({
       quantity: newQuantity
     })
