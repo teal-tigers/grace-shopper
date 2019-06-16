@@ -3,7 +3,7 @@ import {getAllProductsThunk} from '../store/product'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
 import {saveGuestCartThunk} from '../store/cart'
-import CardColumns from 'react-bootstrap/CardColumns'
+import CardDeck from 'react-bootstrap/CardDeck'
 import Container from 'react-bootstrap/Container'
 
 class AllProducts extends React.Component {
@@ -19,13 +19,13 @@ class AllProducts extends React.Component {
 
     return (
       <Container className="w-responsive text-center mx-auto p-3 mt-2">
-        <CardColumns>
+        <CardDeck>
           {products.map(product => (
             <div key={product.id}>
               <SingleProduct product={product} />
             </div>
           ))}
-        </CardColumns>
+        </CardDeck>
       </Container>
     )
   }
