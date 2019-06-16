@@ -18,9 +18,18 @@ const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
  * INITIAL STATE
  */
 //ssw: checks localstorage for cart items, and sets cart items to empty array if nothing on localstorage. else, sets cart items to localstorage contents
-const cartItems = localStorage.getItem('cartItems')
-  ? JSON.parse(localStorage.getItem('cartItems'))
-  : []
+const getCartFromLS = () => {
+  let localCart = localStorage.getItem('cartItems')
+  // console.log('localstorage: ', localStorage.getItem('cartItems'))
+  if (localCart) {
+    console.log('GETTING LOCALSTORAGE')
+    return JSON.parse(localCart)
+  }
+  console.log('getting empty array')
+  return []
+}
+let cartItems = getCartFromLS()
+console.log('cartItems', cartItems)
 const initialState = {
   cartItems,
   order: {},
@@ -76,11 +85,7 @@ export const addItemThunk = (
   quantity
 ) => async dispatch => {
   try {
-    // console.log('OrderId ', orderId)
-    // console.log('productId ', productId)
-    // console.log('Quantity ', quantity)
     const {data} = await axios.post(`/api/cart`, {orderId, productId, quantity})
-    console.log(data)
     dispatch(addedItem(data))
   } catch (error) {
     console.log('There was an error with addItemThunk:', error)

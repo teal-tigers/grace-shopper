@@ -28,19 +28,9 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup/confirm" component={SignupConfirm} />
-        <Route path="/signup" component={Signup} />
-        <Route
-          path="/home"
-          render={props => (
-            <AllProducts
-              {...props}
-              userId={this.props.userId}
-              isLoggedIn={isLoggedIn}
-            />
-          )}
-        />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Route path="/home" component={AllProducts} />
         <Route
           path="/products"
           render={props => (
@@ -59,7 +49,11 @@ class Routes extends Component {
           )}
         />
         {/* Displays our AllProducts component as a fallback */}
-
+        {isLoggedIn && <Route path="/login/confirm" component={UserHome} />}
+        {isLoggedIn && (
+          <Route path="/signup/confirm" component={SignupConfirm} />
+        )}
+        {/* catchall route displays all products view */}
         <Route path="/" component={AllProducts} />
       </Switch>
     )

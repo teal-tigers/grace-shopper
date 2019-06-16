@@ -30,7 +30,7 @@ class Cart extends React.Component {
   }
 
   componentDidUpdate(prev) {
-    if (this.props.userId !== prev.userId) {
+    if (this.props.userId && this.props.userId !== prev.userId) {
       this.props.getOrderAndItemsThunk()
     }
   }
@@ -57,7 +57,6 @@ class Cart extends React.Component {
     const {cartItems, order} = this.props
 
     // helper func to calculate order total
-
     const orderTotal = cartItems.reduce((acc, val) => {
       return acc + val.order_products.quantity * val.price
     }, 0)

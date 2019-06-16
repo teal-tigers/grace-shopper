@@ -14,10 +14,12 @@ const middleware = composeWithDevTools(
 const store = createStore(reducer, middleware)
 
 store.subscribe(() => {
-  localStorage.setItem(
-    'cartItems',
-    JSON.stringify(store.getState().cart.cartItems)
-  )
+  let cartItems = store.getState().cart.cartItems
+  if (cartItems) {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+  } else {
+    localStorage.setItem('cartItems', JSON.stringify([]))
+  }
 })
 
 export default store

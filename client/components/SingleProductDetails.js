@@ -18,8 +18,16 @@ class SingleProductDetails extends React.Component {
   componentDidMount() {
     let params = new URLSearchParams(document.location.search)
     let productName = params.get('name')
-    this.props.getOrderAndItemsThunk()
     this.props.getProductStyleThunk(productName)
+    if (this.props.userId) {
+      this.props.getOrderAndItemsThunk()
+    }
+  }
+
+  componentDidUpdate(prev) {
+    if (this.props.userId && this.props.userId !== prev.userId) {
+      this.props.getOrderAndItemsThunk()
+    }
   }
 
   handleSubmit(event) {

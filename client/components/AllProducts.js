@@ -2,22 +2,10 @@ import React from 'react'
 import {getAllProductsThunk} from '../store/product'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
-import {saveGuestCartThunk} from '../store/cart'
 
 class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getAllProductsThunk()
-    console.log('ISLOGGEDIN:', this.props.isLoggedIn)
-    console.log('PROPS ALL PRODUCTS', this.props)
-    if (this.props.isLoggedIn) {
-      this.props.saveGuestCartThunk(this.props.cartItems)
-    }
-  }
-
-  componentDidUpdate(prev) {
-    if (this.props.isLoggedIn !== prev.isLoggedIn) {
-      this.props.saveGuestCartThunk(this.props.cartItems)
-    }
   }
 
   render() {
@@ -47,8 +35,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getAllProductsThunk: () => dispatch(getAllProductsThunk()),
-  saveGuestCartThunk: cartItems => dispatch(saveGuestCartThunk(cartItems))
+  getAllProductsThunk: () => dispatch(getAllProductsThunk())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)

@@ -2,7 +2,32 @@ const router = require('express').Router()
 const {Product, OrderProduct, Order, User} = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+//express gate checks:
+
+//checks if user sending request is logged in
+const isLoggedInGate = (req, res, next) =>
+  req.user ? next() : res.send('Please log in!')
+//for routes that find order by orderId passed through req.body, checks that orderId belongs to logged in user
+const reqBodyOrderBelongsToUser = async (req, res, next) => {
+  try {
+    console.log('REQ BODY ORDERID', req.body.orderId)
+    let order = await Order.findOne({where: {id: req.body.orderId}})
+    order.userId === req.user.id ? next() : res.send('Please log in!')
+  } catch (error) {
+    next(error)
+  }
+}
+//for routes that find order by orderId passed through req.query, checks that orderId belongs to logged in user
+const reqQueryOrderBelongsToUser = async (req, res, next) => {
+  try {
+    let order = await Order.findOne({where: {id: req.query.orderId}})
+    order.userId === req.user.id ? next() : res.send('Please log in!')
+  } catch (error) {
+    next(error)
+  }
+}
+
+router.get('/', isLoggedInGate, async (req, res, next) => {
   try {
     let items = await Order.findOne({
       where: {userId: req.user.id, status: 'pending'},
@@ -15,7 +40,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //SSW: updates total amount, shipping address (if any), and status to "completed" when user submits their order, and creates a new order entry for the user's next "pending" order.
-router.post('/total', async (req, res, next) => {
+router.post('/total', isLoggedInGate, async (req, res, next) => {
   try {
     let {orderId, address, total} = req.body
     let order = await Order.findOrCreate({
@@ -48,7 +73,7 @@ router.post('/total', async (req, res, next) => {
 })
 
 //this route checks if the user's pending order in the DB already contains product items. If not, it will populate the order with items from req.body. if the order already contained items, it will simply respond with the items saved in the user's order in the DB.
-router.put('/newUserOrder', async (req, res, next) => {
+router.put('/newUserOrder', isLoggedInGate, async (req, res, next) => {
   try {
     let order = await Order.findOne({
       where: {userId: req.user.id, status: 'pending'},
@@ -85,72 +110,85 @@ router.put('/newUserOrder', async (req, res, next) => {
     next(error)
   }
 })
-router.post('/', async (req, res, next) => {
-  try {
-    let {orderId, productId} = req.body
-    // console.log('This is the productId: ', productId)
-    // console.log('This is the orderId ', orderId)
-    let [orderProductEntry] = await OrderProduct.findOrCreate({
-      where: {
-        productId: productId,
-        orderId: orderId
-      }
-    })
+router.post(
+  '/',
+  isLoggedInGate,
+  reqBodyOrderBelongsToUser,
+  async (req, res, next) => {
+    try {
+      let {orderId, productId} = req.body
+      let [orderProductEntry] = await OrderProduct.findOrCreate({
+        where: {
+          productId: productId,
+          orderId: orderId
+        }
+      })
 
-    let oldQuantity = orderProductEntry.quantity
-    console.log('REQ BODY QUANTITY', req.body.quantity)
-    console.log('oldquantity', oldQuantity)
-    console.log('Typeof oldquant', typeof oldQuantity)
-    let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
-    console.log('NEW QUANTITY', newQuantity)
-    await orderProductEntry.update({
-      quantity: newQuantity
-    })
-    let {products} = await Order.findOne({
-      where: {id: orderId},
-      include: [{model: Product, where: {id: productId}}]
-    })
-    let addedItem = products[0]
-    res.status(201).json(addedItem)
-  } catch (error) {
-    next(error)
+      let oldQuantity = orderProductEntry.quantity
+      console.log('REQ BODY QUANTITY', req.body.quantity)
+      console.log('oldquantity', oldQuantity)
+      console.log('Typeof oldquant', typeof oldQuantity)
+      let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
+      console.log('NEW QUANTITY', newQuantity)
+      await orderProductEntry.update({
+        quantity: newQuantity
+      })
+      let {products} = await Order.findOne({
+        where: {id: orderId},
+        include: [{model: Product, where: {id: productId}}]
+      })
+      let addedItem = products[0]
+      res.status(201).json(addedItem)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
-router.put('/', async (req, res, next) => {
-  try {
-    let {orderId, productId} = req.body
-    let updatedQuantity = await OrderProduct.findOne({
-      where: {
-        productId: req.body.productId,
-        orderId: req.body.orderId
-      }
-    })
-    await updatedQuantity.update({
-      quantity: parseInt(req.body.quantity, 10)
-    })
+router.put(
+  '/',
+  isLoggedInGate,
+  reqBodyOrderBelongsToUser,
+  async (req, res, next) => {
+    try {
+      let {orderId, productId} = req.body
+      let updatedQuantity = await OrderProduct.findOne({
+        where: {
+          productId: req.body.productId,
+          orderId: req.body.orderId
+        }
+      })
+      await updatedQuantity.update({
+        quantity: parseInt(req.body.quantity, 10)
+      })
 
-    let {products} = await Order.findOne({
-      where: {id: orderId},
-      include: [{model: Product, where: {id: productId}}]
-    })
-    let updatedQuantityItem = products[0]
-    res.status(201).json(updatedQuantityItem)
-  } catch (error) {
-    next(error)
+      let {products} = await Order.findOne({
+        where: {id: orderId},
+        include: [{model: Product, where: {id: productId}}]
+      })
+      let updatedQuantityItem = products[0]
+      res.status(201).json(updatedQuantityItem)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
-router.delete('/', async (req, res, next) => {
-  try {
-    await OrderProduct.destroy({
-      where: {
-        productId: req.query.productId,
-        orderId: req.query.orderId
-      }
-    })
-    res.status(204)
-  } catch (error) {
-    next(error)
+router.delete(
+  '/',
+  isLoggedInGate,
+  reqQueryOrderBelongsToUser,
+  async (req, res, next) => {
+    try {
+      await OrderProduct.destroy({
+        where: {
+          productId: req.query.productId,
+          orderId: req.query.orderId
+        }
+      })
+      res.status(204)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
