@@ -47,38 +47,39 @@ router.post('/total', async (req, res, next) => {
   }
 })
 
+//this route checks if the user's pending order in the DB already contains product items. If not, it will populate the order with items from req.body. if the order already contained items, it will simply respond with the items saved in the user's order in the DB.
 router.put('/newUserOrder', async (req, res, next) => {
   try {
     let order = await Order.findOne({
-      where: {userId: req.user.id, status: 'pending'}
-    })
-    //populate order with items in cart
-    req.body.cartItems.forEach(async item => {
-      try {
-        //if product exists in order, increment quantity
-        //else add product
-        // let product = await Product.findOne({where: {id: item.id}})
-        let [orderProductEntry] = await OrderProduct.findOrCreate({
-          where: {
-            productId: item.id,
-            orderId: order.id
-          }
-        })
-        // let orderProductEntry = await OrderProduct.findOne({
-        //   where: {orderId: order.id, productId: item.id}
-        // })
-        let newQuantity =
-          orderProductEntry.quantity +
-          parseInt(item.order_products.quantity, 10)
-        await orderProductEntry.update({quantity: newQuantity})
-      } catch (error) {
-        next(error)
-      }
-    })
-    order = await Order.findOne({
       where: {userId: req.user.id, status: 'pending'},
       include: [{model: Product}]
     })
+    //if order does not contain any products, populate order with items in req.body. else, respond with items already in order.
+    if (order.products.length < 1) {
+      req.body.items.forEach(async item => {
+        try {
+          //if product exists in order, increment quantity
+          //else add product
+          let [orderProductEntry] = await OrderProduct.findOrCreate({
+            where: {
+              productId: item.id,
+              orderId: order.id
+            }
+          })
+          let newQuantity =
+            orderProductEntry.quantity +
+            parseInt(item.order_products.quantity, 10)
+          await orderProductEntry.update({quantity: newQuantity})
+          order = await Order.findOne({
+            where: {userId: req.user.id, status: 'pending'},
+            include: [{model: Product}]
+          })
+        } catch (error) {
+          next(error)
+        }
+      })
+    }
+
     res.status(201).json(order)
   } catch (error) {
     next(error)

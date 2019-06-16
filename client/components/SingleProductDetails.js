@@ -23,15 +23,14 @@ class SingleProductDetails extends React.Component {
   }
 
   handleSubmit(event) {
-    console.dir('product: ', this.state.size)
     event.preventDefault()
-    if (this.props.userId) {
+    if (this.props.userId && !!this.state.quantity && !!this.state.size) {
       this.props.addItemThunk(
         this.props.order.id,
         this.state.size,
         this.state.quantity
       )
-    } else {
+    } else if (!!this.state.quantity && !!this.state.size) {
       let item = {}
       this.props.productStyle.forEach(product => {
         if (product.id === parseInt(this.state.size, 10)) {

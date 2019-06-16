@@ -9,7 +9,8 @@ const Order = db.define('order', {
     defaultValue: 'pending'
   },
   shippingAddress: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue: ''
   },
   total: {
     type: Sequelize.DECIMAL,

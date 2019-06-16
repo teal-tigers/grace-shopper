@@ -17,8 +17,12 @@ const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 /**
  * INITIAL STATE
  */
+//ssw: checks localstorage for cart items, and sets cart items to empty array if nothing on localstorage. else, sets cart items to localstorage contents
+const cartItems = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : []
 const initialState = {
-  cartItems: [],
+  cartItems,
   order: {},
   loading: true
 }
@@ -110,8 +114,9 @@ export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   }
 }
 
-export const saveGuestCartThunk = cartItems => async dispatch => {
-  let {data} = await axios.put('/api/cart/newUserOrder', {cartItems})
+//upon login or signup, will check DB if user had a pending order with conetents. If not, it will save items in local state to user's order in DB.  If so, it will replace local cartItems with user's prior cart items from DB.
+export const saveGuestCartThunk = items => async dispatch => {
+  let {data} = await axios.put('/api/cart/newUserOrder', {items})
   let itemList = data.products
   delete data.products
   let orderInfo = data

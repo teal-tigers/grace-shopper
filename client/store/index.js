@@ -10,7 +10,15 @@ const reducer = combineReducers({user, product, cart})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
+
 const store = createStore(reducer, middleware)
+
+store.subscribe(() => {
+  localStorage.setItem(
+    'cartItems',
+    JSON.stringify(store.getState().cart.cartItems)
+  )
+})
 
 export default store
 export * from './user'
