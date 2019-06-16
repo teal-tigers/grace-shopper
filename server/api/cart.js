@@ -4,14 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    let user = await User.findOne({
-      where: {id: req.user.id},
-      include: [{model: Order}]
-    })
-
-    let orderId = user.order.id
     let items = await Order.findOne({
-      where: {id: orderId, status: 'pending'},
+      where: {userId: req.user.id, status: 'pending'},
       include: [{model: Product}]
     })
     res.json(items)

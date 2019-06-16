@@ -1,25 +1,53 @@
-// import React from 'react'
-// // import {getAllProductsThunk} from '../store/product'
-// import {connect} from 'react-redux'
+import React from 'react'
+import {connect} from 'react-redux'
+import {getUserAccountThunk} from '../store/account'
+import OrderHistory from './OrderHistory'
 
-// const UserAccount = props => {
-//   // const user = props.user
-//   const {user} = props
+class UserAccount extends React.Component {
+  componentDidMount() {
+    this.props.getUserAccountThunk()
+  }
 
-//   return (
-//     <div>
-//       <div>
-//         <h1>Account Details</h1>
-//       </div>
-//       <div>Name: {user.fullName}</div>
-//       <div>Address: {user.address}</div>
-//       <div>Email: {user.email}</div>
-//     </div>
-//   )
-// }
+  render() {
+    const {userAccount} = this.props // userAccount.fullName, userAccount.address, userAccount.email, userAccount.orders (array)
+    // const orders = props.userAccount.details.orders;
 
-// const mapStateToProps = state => ({
-//   user: state.user.user // ???? 1st user = reducer, 2nd user = user
-// })
+    return (
+      <div>
+        <div>
+          <div>
+            <h2>Account Information</h2>
+          </div>
+          <div>
+            <strong>Name:</strong> {userAccount.fullName}
+          </div>
+          <div>
+            <strong>Email:</strong> {userAccount.email}
+          </div>
+          <div>
+            <h2>Default Address</h2>
+          </div>
+          {userAccount.address ? (
+            <div>
+              <strong>Address:</strong> {userAccount.address}
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
+        <OrderHistory orders={userAccount.orders} />
+      </div>
+    )
+  }
+}
 
-// export default connect(mapStateToProps)(UserAccount)
+const mapStateToProps = state => ({
+  userAccount: state.account.accountDetails,
+  loading: state.account.loading
+})
+
+const mapDispatchToProps = dispatch => ({
+  getUserAccountThunk: () => dispatch(getUserAccountThunk())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserAccount)
