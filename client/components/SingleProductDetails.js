@@ -7,17 +7,21 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Toast from 'react-bootstrap/Toast'
 
 class SingleProductDetails extends React.Component {
   constructor() {
     super()
     this.state = {
       quantity: '',
-      size: ''
+      size: '',
+      show: false
     }
     this.handleChangeQuantity = this.handleChangeQuantity.bind(this)
     this.handleChangeSize = this.handleChangeSize.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.handleShow = this.handleShow.bind(this)
   }
 
   componentDidMount() {
@@ -33,6 +37,12 @@ class SingleProductDetails extends React.Component {
     if (this.props.userId && this.props.userId !== prev.userId) {
       this.props.getOrderAndItemsThunk()
     }
+  }
+  handleShow() {
+    this.setState({show: true})
+  }
+  handleClose() {
+    this.setState({show: false})
   }
 
   handleSubmit(event) {
@@ -55,6 +65,7 @@ class SingleProductDetails extends React.Component {
         order_products: {quantity: this.state.quantity}
       })
     }
+    this.handleShow()
   }
 
   handleChangeQuantity(event) {
@@ -116,15 +127,37 @@ class SingleProductDetails extends React.Component {
               <option value="5">5</option>
             </select>
 
-            <Button type="submit" variant="warning" onClick={this.handleSubmit}>
+            <Button
+              style={{marginBottom: '2rem'}}
+              type="submit"
+              variant="warning"
+              onClick={this.handleSubmit}
+            >
               Add To Cart
             </Button>
+            <Toast
+              onClose={this.handleClose}
+              show={this.state.show}
+              delay={3000}
+              autohide
+            >
+              <Toast.Header>
+                <img
+                  src="holder.js/20x20?text=%20"
+                  className="rounded mr-2"
+                  alt=""
+                />
+                <strong className="mr-auto">Added to your Cart</strong>
+              </Toast.Header>
+              <Toast.Body>Keep Shopping!</Toast.Body>
+            </Toast>
           </Card>
         </Col>
       </Row>
     )
   }
 }
+
 const mapStateToProps = state => ({
   productStyle: state.product.productStyle,
   loading: state.product.loading,
