@@ -5,14 +5,15 @@ import React from 'react'
 import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import {AllProducts} from './AllProducts'
+import {SingleProduct} from './SingleProduct'
 
 const adapter = new Adapter()
 enzyme.configure({adapter})
 
-describe('Front-End-Component', () => {
+describe('<AllProducts /> component', () => {
   let allProductsTest
 
-  beforeEach(() => {
+  beforeEach('Create component', () => {
     allProductsTest = shallow(<AllProducts />)
   })
 
@@ -32,15 +33,30 @@ describe('Front-End-Component', () => {
   ]
 
   describe('<AllProducts /> component', () => {
-    it('renders all products in testProducts', () => {})
+    it('has a `products` field initialized to be an empty array', () => {
+      expect(allProductsTest.state().products).to.be.an('array')
+    })
 
-    it('renders a <Single Product /> component in a div', () => {})
+    it('has a `productStyle` field initialized to be an empty array', () => {
+      expect(allProductsTest.state().productStyle).to.be.an('array')
+    })
 
     it('renders an <h1> element', () => {
       // eslint-disable-next-line no-unused-expressions
       expect(allProductsTest.find('h1').getElement()).to.exist
     })
 
-    it('passes a prop called `product` to a <SingleProduct /> components', () => {})
+    it('renders a <SingleProduct /> component', () => {
+      expect(allProductsTest.find(SingleProduct).length).to.be.equal(1)
+    })
+
+    it('passes a prop called `product` to the <SingleProduct /> component', () => {
+      expect(
+        allProductsTest
+          .find('#product')
+          .find(SingleProduct)
+          .props().product
+      ).to.be.deep.equal(testProducts[0])
+    })
   })
 })
