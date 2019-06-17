@@ -2349,7 +2349,7 @@ var reducer = function reducer() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
@@ -2411,7 +2411,7 @@ var devMiddleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__
   collapsed: true
 })));
 var prodMiddleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"]));
-var store = process.env.PROCESS_ENV === 'prod' ? Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, prodMiddleware) : Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, devMiddleware);
+var store =  false ? undefined : Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, devMiddleware);
 store.subscribe(function () {
   var cartItems = store.getState().cart.cartItems;
 
@@ -2426,7 +2426,6 @@ store.subscribe(function () {
 
 
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 

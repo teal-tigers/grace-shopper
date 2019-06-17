@@ -15,7 +15,7 @@ const devMiddleware = composeWithDevTools(
 const prodMiddleware = composeWithDevTools(applyMiddleware(thunkMiddleware))
 
 const store =
-  process.env.PROCESS_ENV === 'prod'
+  process.env.NODE_ENV === 'production'
     ? createStore(reducer, prodMiddleware)
     : createStore(reducer, devMiddleware)
 
