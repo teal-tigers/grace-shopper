@@ -9,7 +9,8 @@ const User = db.define('user', {
     allowNull: false
   },
   address: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue: ''
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,
@@ -89,7 +90,6 @@ User.prototype.newOrder = async function() {
 }
 //SSW: This hook ensures that after a new user is created,
 //a new order entry is created for that user.
-User.afterCreate(async instance => {
-  let order = await Order.create()
-  await instance.addOrder(order)
+User.afterCreate(instance => {
+  Order.create({userId: instance.id})
 })

@@ -43,7 +43,7 @@ export const auth = (email, password) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    history.push('/login/confirm')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -64,7 +64,7 @@ export const addUserThunk = (
     })
     //SSW: this will redirect user to home page after they create an account
     dispatch(getUser(data))
-    history.push('/home')
+    history.push('/signup/confirm')
   } catch (error) {
     console.log('There is an error with addUserThunk: ', error)
   }

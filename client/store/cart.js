@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../history'
@@ -16,8 +17,21 @@ const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 /**
  * INITIAL STATE
  */
+//ssw: checks localstorage for cart items, and sets cart items to empty array if nothing on localstorage. else, sets cart items to localstorage contents
+const getCartFromLS = () => {
+  let localCart = localStorage.getItem('cartItems')
+  // console.log('localstorage: ', localStorage.getItem('cartItems'))
+  if (localCart) {
+    console.log('GETTING LOCALSTORAGE')
+    return JSON.parse(localCart)
+  }
+  console.log('getting empty array')
+  return []
+}
+let cartItems = getCartFromLS()
+console.log('cartItems', cartItems)
 const initialState = {
-  cartItems: [],
+  cartItems,
   order: {},
   loading: true
 }
@@ -73,11 +87,7 @@ export const addItemThunk = (
   quantity
 ) => async dispatch => {
   try {
-    // console.log('OrderId ', orderId)
-    // console.log('productId ', productId)
-    // console.log('Quantity ', quantity)
     const {data} = await axios.post(`/api/cart`, {orderId, productId, quantity})
-    console.log(data)
     dispatch(addedItem(data))
   } catch (error) {
     console.log('There was an error with addItemThunk:', error)
@@ -111,6 +121,16 @@ export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   }
 }
 
+//upon login or signup, will check DB if user had a pending order with conetents. If not, it will save items in local state to user's order in DB.  If so, it will replace local cartItems with user's prior cart items from DB.
+export const saveGuestCartThunk = items => async dispatch => {
+  let {data} = await axios.put('/api/cart/newUserOrder', {items})
+  let itemList = data.products
+  delete data.products
+  let orderInfo = data
+  dispatch(gotItems(itemList))
+  dispatch(gotOrder(orderInfo))
+}
+
 export const updateQuantityThunk = (
   orderId,
   productId,
@@ -132,9 +152,27 @@ const reducer = (state = initialState, action) => {
       //note that each "cartItem" will have quantity at cartItem.order_products.quantity
       return {...state, cartItems: action.items, loading: false}
     case ADD_ITEM:
+      //check if product already in item list and increment quantity
+      let inCart = false
+      let updatedItems = state.cartItems.map(item => {
+        if (item.id !== action.item.id) {
+          return item
+        } else {
+          inCart = true
+          let newItem = item
+          newItem.order_products.quantity =
+            parseInt(item.order_products.quantity, 10) +
+            parseInt(action.item.order_products.quantity, 10)
+          return newItem
+        }
+      })
+      //if item is not in item list, add item to item list
+      if (!inCart) {
+        updatedItems.push(action.item)
+      }
       return {
         ...state,
-        cartItems: [...state.cartItems, action.item],
+        cartItems: updatedItems,
         loading: false
       }
     case DELETE_ITEM:

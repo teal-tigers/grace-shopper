@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
+  SignupConfirm,
   UserHome,
   UserAccount,
   AllProducts,
@@ -13,6 +14,7 @@ import {
   ThankYou
 } from './components'
 import {me} from './store'
+import Container from 'react-bootstrap/Container'
 
 /**
  * COMPONENT
@@ -26,38 +28,52 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/home" component={AllProducts} />
-        <Route
-          path="/products"
-          render={props => (
-            <SingleProductDetails {...props} userId={this.props.userId} />
+      <Container className="w-responsive mx-auto p-3 mt-2">
+        <Switch>
+          {/* Routes placed here are available to all visitors */}
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route
+            path="/home"
+            render={props => (
+              <AllProducts
+                {...props}
+                userId={this.props.userId}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+          <Route
+            path="/products"
+            render={props => (
+              <SingleProductDetails {...props} userId={this.props.userId} />
+            )}
+          />
+          <Route path="/thankyou" component={ThankYou} />
+          <Route
+            path="/cart"
+            render={props => (
+              <Cart
+                {...props}
+                userId={this.props.userId}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+          {isLoggedIn && <Route path="/login/confirm" component={UserHome} />}
+          {isLoggedIn && (
+            <Route path="/signup/confirm" component={SignupConfirm} />
           )}
-        />
-        <Route path="/thankyou" component={ThankYou} />
-        <Route
-          path="/cart"
-          render={props => (
-            <Cart
-              {...props}
-              userId={this.props.userId}
-              isLoggedIn={isLoggedIn}
-            />
-          )}
-        />
-        {isLoggedIn && (
-          <Switch>
+           {isLoggedIn && (
+          
             {/* Routes placed here are only available after logging in */}
             <Route path="/account" component={UserAccount} />
-          </Switch>
         )}
+          {/* Displays our AllProducts component as a fallback */}
 
-        {/* Displays our AllProducts component as a fallback */}
-        <Route path="/" component={AllProducts} />
-      </Switch>
+          <Route path="/" component={AllProducts} />
+        </Switch>
+      </Container>
     )
   }
 }
