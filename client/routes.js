@@ -64,11 +64,7 @@ class Routes extends Component {
           {isLoggedIn && (
             <Route path="/signup/confirm" component={SignupConfirm} />
           )}
-           {isLoggedIn && (
-          
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/account" component={UserAccount} />
-        )}
+          {isLoggedIn && <Route path="/account" component={UserAccount} />}
           {/* Displays our AllProducts component as a fallback */}
 
           <Route path="/" component={AllProducts} />
