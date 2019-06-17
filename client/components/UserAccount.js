@@ -14,28 +14,40 @@ class UserAccount extends React.Component {
 
     return (
       <div>
-        <div>
-          <div>
-            <h2>Account Information</h2>
-          </div>
-          <div>
-            <strong>Name:</strong> {userAccount.fullName}
-          </div>
-          <div>
-            <strong>Email:</strong> {userAccount.email}
-          </div>
-          <div>
-            <h2>Default Address</h2>
-          </div>
-          {userAccount.address ? (
-            <div>
-              <strong>Address:</strong> {userAccount.address}
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6">
+              <div>
+                <h2>Account Information</h2>
+              </div>
+              <div>
+                <strong>Name:</strong> {userAccount.fullName}
+              </div>
+              <div>
+                <strong>Email:</strong> {userAccount.email}
+              </div>
             </div>
-          ) : (
-            ''
-          )}
+
+            <div className="col-sm-6">
+              <div>
+                <h2>Default Address</h2>
+              </div>
+              {userAccount.address ? (
+                <div>
+                  <strong>Address:</strong> {userAccount.address}
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
+          </div>
         </div>
-        <OrderHistory orders={userAccount.orders} />
+
+        <br />
+        <br />
+        <div className="container">
+          <OrderHistory orders={userAccount.orders} />
+        </div>
       </div>
     )
   }

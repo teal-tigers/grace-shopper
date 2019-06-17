@@ -28,17 +28,3 @@ router.get('/account', async (req, res, next) => {
     next(error)
   }
 })
-
-// router.get('/account', async (req, res, next) => {
-//   try {
-//     if (req.user) {
-//       const user = await User.findOne({
-//         where: {email: req.user.email},
-//         include: [{model: Order}]
-//       })
-//       res.json(user)
-//     }
-//   } catch (error) {
-//     next(error)
-//   }
-// })
