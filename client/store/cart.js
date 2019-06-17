@@ -69,12 +69,14 @@ export const getOrderAndItemsThunk = () => async dispatch => {
   try {
     const {data} = await axios.get(`/api/cart/`)
     let itemList = data.products
-    delete data.products
+    // delete data.products
     let orderInfo = data
+    // console.log(itemList)
+    // console.log(orderInfo)
     dispatch(gotItems(itemList))
     dispatch(gotOrder(orderInfo))
   } catch (error) {
-    console.log('There was an error with getItemsThunk:', error)
+    console.log('There was an error with getOrderAndItemsThunk:', error)
   }
 }
 

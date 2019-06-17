@@ -7,16 +7,7 @@ module.exports = router
 //checks if user sending request is logged in
 const isLoggedInGate = (req, res, next) =>
   req.user ? next() : res.send('Please log in!')
-//for routes that find order by orderId passed through req.body, checks that orderId belongs to logged in user
-const reqBodyOrderBelongsToUser = async (req, res, next) => {
-  try {
-    console.log('REQ BODY ORDERID', req.body.orderId)
-    let order = await Order.findOne({where: {id: req.body.orderId}})
-    order.userId === req.user.id ? next() : res.send('Please log in!')
-  } catch (error) {
-    next(error)
-  }
-}
+
 //for routes that find order by orderId passed through req.query, checks that orderId belongs to logged in user
 const reqQueryOrderBelongsToUser = async (req, res, next) => {
   try {

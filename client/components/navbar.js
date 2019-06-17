@@ -6,6 +6,7 @@ import {logout, clearCart} from '../store'
 import NavBar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 
+
 const Navbar = ({handleClick, isLoggedIn, fullName}) => (
   <NavBar
     bg="light justify-content-between"
@@ -29,9 +30,13 @@ const Navbar = ({handleClick, isLoggedIn, fullName}) => (
     <Nav className="justify-content-end">
       <React.Fragment>
         {isLoggedIn ? (
-          <Nav.Link href="#" onClick={handleClick}>
-            {fullName} / Logout
+          <Nav.Link as={Link} to="/account" >
+            {fullName}
           </Nav.Link>
+      <Nav.Link href="#" onClick={handleClick}>
+            Logout
+          </Nav.Link>
+  
         ) : (
           <React.Fragment>
             <Nav.Link as={Link} to="/login">
