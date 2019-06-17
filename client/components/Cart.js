@@ -95,8 +95,7 @@ class Cart extends React.Component {
                       className="browser-default custom-select"
                       style={{
                         width: '4.8rem',
-                        marginRight: '0.5rem',
-                        marginBottom: '0.5rem'
+                        marginRight: '0.5rem'
                       }}
                       onChange={this.handleChange}
                       name="quantity"
