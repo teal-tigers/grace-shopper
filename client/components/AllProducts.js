@@ -18,15 +18,13 @@ class AllProducts extends React.Component {
     let {products} = this.props
 
     return (
-      <Container className="w-responsive text-center mx-auto p-3 mt-2">
-        <CardDeck>
-          {products.map(product => (
-            <div key={product.id}>
-              <SingleProduct product={product} />
-            </div>
-          ))}
-        </CardDeck>
-      </Container>
+      <CardDeck className="w-responsive text-center mx-auto">
+        {products.map(product => (
+          <div key={product.id}>
+            <SingleProduct product={product} />
+          </div>
+        ))}
+      </CardDeck>
     )
   }
 }

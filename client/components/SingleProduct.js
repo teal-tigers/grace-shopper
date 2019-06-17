@@ -7,7 +7,7 @@ const SingleProduct = props => {
   const product = props.product
   const productName = product.name.split(' ').join('-')
   return (
-    <Card style={{width: '21rem', marginBottom: '1rem'}}>
+    <Card style={{width: '21rem', marginBottom: '1rem', border: 'none'}}>
       <Card.Img src={product.imageUrl} variant="top" />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>

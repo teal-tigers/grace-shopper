@@ -5,10 +5,14 @@ import {Link} from 'react-router-dom'
 import {logout, clearCart} from '../store'
 import NavBar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import Container from 'react-bootstrap/Container'
 
 const Navbar = ({handleClick, isLoggedIn, fullName}) => (
-  <NavBar bg="light justify-content-between" expand="lg" sticky="top">
+  <NavBar
+    bg="light justify-content-between"
+    expand="lg"
+    sticky="top"
+    style={{marginBottom: '2rem'}}
+  >
     <Nav className="justify-content-start">
       <Nav.Link as={Link} to="/home">
         Home
