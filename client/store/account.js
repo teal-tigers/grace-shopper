@@ -27,7 +27,6 @@ export const getUserAccountThunk = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/users/account')
     dispatch(gotUserAccount(data))
-    console.log(data)
   } catch (error) {
     console.log('There was an error with getUserAccountThunk:', error)
   }
