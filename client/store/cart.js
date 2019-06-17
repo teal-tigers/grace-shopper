@@ -20,16 +20,12 @@ const GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY'
 //ssw: checks localstorage for cart items, and sets cart items to empty array if nothing on localstorage. else, sets cart items to localstorage contents
 const getCartFromLS = () => {
   let localCart = localStorage.getItem('cartItems')
-  // console.log('localstorage: ', localStorage.getItem('cartItems'))
   if (localCart) {
-    console.log('GETTING LOCALSTORAGE')
     return JSON.parse(localCart)
   }
-  console.log('getting empty array')
   return []
 }
 let cartItems = getCartFromLS()
-console.log('cartItems', cartItems)
 const initialState = {
   cartItems,
   order: {},
@@ -71,8 +67,6 @@ export const getOrderAndItemsThunk = () => async dispatch => {
     let itemList = data.products
     // delete data.products
     let orderInfo = data
-    // console.log(itemList)
-    // console.log(orderInfo)
     dispatch(gotItems(itemList))
     dispatch(gotOrder(orderInfo))
   } catch (error) {

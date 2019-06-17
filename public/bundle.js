@@ -655,7 +655,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('PROPS', this.props);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.props.name, ", thank you for signing up!"));
     }
   }]);
@@ -1231,7 +1230,7 @@ var AuthForm = function AuthForm(props) {
     type: "password"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit"
-  }, displayName)), error && error.response && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", error.response.data, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, displayName)), error && error.message && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", error.message, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/auth/google"
   }, displayName, " with Google"));
 };
@@ -1856,21 +1855,20 @@ var getUserAccountThunk = function getUserAccountThunk() {
                 _ref2 = _context.sent;
                 data = _ref2.data;
                 dispatch(gotUserAccount(data));
-                console.log(data);
-                _context.next = 12;
+                _context.next = 11;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 console.log('There was an error with getUserAccountThunk:', _context.t0);
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 8]]);
       }));
 
       return function (_x) {
@@ -1952,19 +1950,16 @@ var GUEST_UPDATE_QUANTITY = 'GUEST_UPDATE_QUANTITY';
 //ssw: checks localstorage for cart items, and sets cart items to empty array if nothing on localstorage. else, sets cart items to localstorage contents
 
 var getCartFromLS = function getCartFromLS() {
-  var localCart = localStorage.getItem('cartItems'); // console.log('localstorage: ', localStorage.getItem('cartItems'))
+  var localCart = localStorage.getItem('cartItems');
 
   if (localCart) {
-    console.log('GETTING LOCALSTORAGE');
     return JSON.parse(localCart);
   }
 
-  console.log('getting empty array');
   return [];
 };
 
 var cartItems = getCartFromLS();
-console.log('cartItems', cartItems);
 var initialState = {
   cartItems: cartItems,
   order: {},
@@ -2049,9 +2044,7 @@ var getOrderAndItemsThunk = function getOrderAndItemsThunk() {
                 data = _ref2.data;
                 itemList = data.products; // delete data.products
 
-                orderInfo = data; // console.log(itemList)
-                // console.log(orderInfo)
-
+                orderInfo = data;
                 dispatch(gotItems(itemList));
                 dispatch(gotOrder(orderInfo));
                 _context.next = 14;
@@ -2394,7 +2387,7 @@ var reducer = function reducer() {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, me, auth, addUserThunk, logout, getAllProductsThunk, getProductStyleThunk, addedItem, clearCart, deletedItemAction, guestUpdatedQuantityAction, getOrderAndItemsThunk, addItemThunk, deleteItemThunk, submitOrderThunk, saveGuestCartThunk, updateQuantityThunk, getUserAccountThunk */
+/*! exports provided: default, me, auth, addUserThunk, logout, getAllProductsThunk, getProductStyleThunk, getUserAccountThunk, addedItem, clearCart, deletedItemAction, guestUpdatedQuantityAction, getOrderAndItemsThunk, addItemThunk, deleteItemThunk, submitOrderThunk, saveGuestCartThunk, updateQuantityThunk */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2457,10 +2450,11 @@ var reducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   cart: _cart__WEBPACK_IMPORTED_MODULE_6__["default"],
   account: _account__WEBPACK_IMPORTED_MODULE_7__["default"]
 });
-var middleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], Object(redux_logger__WEBPACK_IMPORTED_MODULE_1__["createLogger"])({
+var devMiddleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], Object(redux_logger__WEBPACK_IMPORTED_MODULE_1__["createLogger"])({
   collapsed: true
 })));
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, middleware);
+var prodMiddleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"]));
+var store =  false ? undefined : Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, devMiddleware);
 store.subscribe(function () {
   var cartItems = store.getState().cart.cartItems;
 
