@@ -4,6 +4,8 @@ import {submitOrderThunk, clearCart} from '../store/cart'
 import {Signup} from './auth-form'
 import {Link} from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import Button from 'react-bootstrap/Button'
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -42,17 +44,26 @@ class Checkout extends React.Component {
         </Link>
       </div>
     ) : (
-      <form onSubmit={this.handleSubmit}>
-        <h2>{this.props.user.fullName}</h2>
-        <label htmlFor="address">Add Shipping Address</label>
-        <input
-          name="address"
-          type="text"
-          value={this.state.address}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Complete Purchase</button>
-      </form>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Row>
+          <Form.Label>
+            {this.props.user.fullName}, please complete checkout
+          </Form.Label>
+
+          <Form.Group controlId="formGridAddress1">
+            <Form.Label>Shipping Address</Form.Label>
+            <FormControl
+              as="input"
+              name="address"
+              defaultValue={this.state.address}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+        </Form.Row>
+        <Button variant="info" type="submit">
+          Complete Purchase
+        </Button>
+      </Form>
     )
   }
 }

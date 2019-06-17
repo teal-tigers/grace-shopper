@@ -13,6 +13,9 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 class Cart extends React.Component {
   constructor() {
@@ -60,133 +63,151 @@ class Cart extends React.Component {
 
     return (
       <React.Fragment>
-        <h2>Cart</h2>
-        <Table responsive="sm">
-          <thead>
-            <tr>
-              <th />
-              <th>Item</th>
-              <th>Item Price</th>
-              <th>Quantity</th>
-              <th>Total Price</th>
-              <th>Remove Item</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!cartItems.length && (
-              <tr>
-                <td>You Cart is empty...</td>
-              </tr>
-            )}
-            {cartItems.length > 0 &&
-              cartItems.map(item => (
-                <tr key={item.id}>
-                  <td>
-                    <Image src={item.imageUrl} style={{width: '8rem'}} />
-                  </td>
-                  <td>
-                    <p>{item.name}</p>
-                    <p>{`Size: ${item.size}`}</p>
-                  </td>
-                  <td>
-                    <p>{`$${item.price}`}</p>
-                  </td>
-                  <td>
-                    <select
-                      className="browser-default custom-select"
-                      style={{width: '5rem', marginRight: '0.5rem'}}
-                      onChange={this.handleChange}
-                      name="quantity"
-                      value={item.order_products.quantity}
-                    >
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
+        <Container>
+          <Row sm={9}>
+            <Col>
+              <h2>Cart</h2>
 
-                    {/* this ternary and the one below triggers different actions
+              <Table responsive="sm">
+                <thead>
+                  <tr>
+                    <th />
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {!cartItems.length && (
+                    <tr>
+                      <td>You Cart is empty...</td>
+                    </tr>
+                  )}
+                  {cartItems.length > 0 &&
+                    cartItems.map(item => (
+                      <tr key={item.id}>
+                        <td>
+                          <Image src={item.imageUrl} style={{width: '8rem'}} />
+                        </td>
+                        <td>
+                          <p>{item.name}</p>
+                          <p>{`Size: ${item.size}`}</p>
+                        </td>
+                        <td>
+                          <p>{`$${item.price}`}</p>
+                        </td>
+                        <td>
+                          <select
+                            className="browser-default custom-select"
+                            style={{
+                              width: '5rem',
+                              marginRight: '0.5rem',
+                              marginBottom: '0.5rem'
+                            }}
+                            onChange={this.handleChange}
+                            name="quantity"
+                            defaultValue={item.order_products.quantity}
+                          >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+
+                          {/* this ternary and the one below triggers different actions
                    depending on whether user is logged in or guest */}
-                    {this.props.userId ? (
-                      <Button
-                        variant="outline-warning"
-                        type="submit"
-                        onClick={() =>
-                          this.props.updateQuantityThunk(
-                            order.id,
-                            item.id,
-                            this.state.quantity
-                          )
-                        }
-                      >
-                        Update
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outline-warning"
-                        type="submit"
-                        onClick={() =>
-                          this.props.guestUpdatedQuantityAction({
-                            id: item.id,
-                            quantity: this.state.quantity
-                          })
-                        }
-                      >
-                        Update
-                      </Button>
-                    )}
-                  </td>
-                  <td>
-                    <p>{`$${(item.order_products.quantity * item.price).toFixed(
-                      2
-                    )}`}</p>
-                  </td>
-                  <td>
-                    {this.props.userId ? (
-                      <Button
-                        variant="outline-danger"
-                        type="button"
-                        onClick={() =>
-                          this.props.deleteItemThunk(order.id, item.id)
-                        }
-                      >
-                        Delete
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outline-danger"
-                        type="button"
-                        onClick={() => this.props.deletedItemAction(item.id)}
-                      >
-                        Delete
-                      </Button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-        <Card border="light" style={{width: '18rem'}}>
-          {!!cartItems.length && (
-            <div>
-              {/* Convert a number into a string, keeping only two decimals */}
-              <Card.Header>Order Summary</Card.Header>
-              <Card.Body>
-                {/* <Card.Text>{`Subtotal:  $${orderTotal.toFixed(2)}`}</Card.Text>
+                          {this.props.userId ? (
+                            <Button
+                              variant="outline-warning"
+                              type="submit"
+                              onClick={() =>
+                                this.props.updateQuantityThunk(
+                                  order.id,
+                                  item.id,
+                                  this.state.quantity
+                                )
+                              }
+                            >
+                              Update
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline-warning"
+                              type="submit"
+                              onClick={() =>
+                                this.props.guestUpdatedQuantityAction({
+                                  id: item.id,
+                                  quantity: this.state.quantity
+                                })
+                              }
+                            >
+                              Update
+                            </Button>
+                          )}
+                        </td>
+                        <td>
+                          <p>{`$${(
+                            item.order_products.quantity * item.price
+                          ).toFixed(2)}`}</p>
+                        </td>
+                        <td>
+                          {this.props.userId ? (
+                            <Button
+                              variant="outline-danger"
+                              type="button"
+                              onClick={() =>
+                                this.props.deleteItemThunk(order.id, item.id)
+                              }
+                            >
+                              Delete
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline-danger"
+                              type="button"
+                              onClick={() =>
+                                this.props.deletedItemAction(item.id)
+                              }
+                            >
+                              Delete
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </Col>
+
+            <Col sm={3}>
+              <Card border="light" style={{width: '18rem'}}>
+                {!!cartItems.length && (
+                  <div>
+                    {/* Convert a number into a string, keeping only two decimals */}
+                    <Card.Header>Order Summary</Card.Header>
+                    <Card.Body>
+                      {/* <Card.Text>{`Subtotal:  $${orderTotal.toFixed(2)}`}</Card.Text>
                 <Card.Text>Shipping: free</Card.Text>
                 <Card.Text>Tax: $0.00</Card.Text> */}
-                <h3>{`Total:  $${orderTotal.toFixed(2)}`}</h3>
-                <hr />
-                <Checkout
-                  orderId={this.props.order.id}
-                  total={orderTotal}
-                  user={this.props.user}
-                />
-              </Card.Body>
-            </div>
-          )}
-        </Card>
+                      <Card.Text>{`Total:  $${orderTotal.toFixed(
+                        2
+                      )}`}</Card.Text>
+                      <hr />
+                      <Checkout
+                        orderId={this.props.order.id}
+                        total={orderTotal}
+                        user={this.props.user}
+                      />
+                    </Card.Body>
+                  </div>
+                )}
+              </Card>
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     )
   }
