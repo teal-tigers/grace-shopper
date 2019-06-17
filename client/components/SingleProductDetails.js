@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
-import {Link} from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
@@ -135,10 +134,3 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToProps)(
   SingleProductDetails
 )
-
-{
-  /* <Row>
-<Col>1 of 2</Col>
-<Col>2 of 2</Col>
-</Row> */
-}
