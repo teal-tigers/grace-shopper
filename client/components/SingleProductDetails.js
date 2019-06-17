@@ -23,20 +23,27 @@ class SingleProductDetails extends React.Component {
   componentDidMount() {
     let params = new URLSearchParams(document.location.search)
     let productName = params.get('name')
-    this.props.getOrderAndItemsThunk()
     this.props.getProductStyleThunk(productName)
+    if (this.props.userId) {
+      this.props.getOrderAndItemsThunk()
+    }
+  }
+
+  componentDidUpdate(prev) {
+    if (this.props.userId && this.props.userId !== prev.userId) {
+      this.props.getOrderAndItemsThunk()
+    }
   }
 
   handleSubmit(event) {
-    console.dir('product: ', this.state.size)
     event.preventDefault()
-    if (this.props.userId) {
+    if (this.props.userId && !!this.state.quantity && !!this.state.size) {
       this.props.addItemThunk(
         this.props.order.id,
         this.state.size,
         this.state.quantity
       )
-    } else {
+    } else if (!!this.state.quantity && !!this.state.size) {
       let item = {}
       this.props.productStyle.forEach(product => {
         if (product.id === parseInt(this.state.size, 10)) {
