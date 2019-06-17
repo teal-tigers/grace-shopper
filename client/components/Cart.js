@@ -96,7 +96,7 @@ class Cart extends React.Component {
                       style={{width: '5rem', marginRight: '0.5rem'}}
                       onChange={this.handleChange}
                       name="quantity"
-                      value={item.order_products.quantity}
+                      defaultValue={item.order_products.quantity}
                     >
                       <option value="1">1</option>
                       <option value="2">2</option>
