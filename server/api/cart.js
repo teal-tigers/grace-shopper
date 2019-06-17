@@ -72,39 +72,35 @@ router.post('/total', isLoggedInGate, async (req, res, next) => {
   }
 })
 
-//this route checks if the user's pending order in the DB already contains product items. If not, it will populate the order with items from req.body. if the order already contained items, it will simply respond with the items saved in the user's order in the DB.
+//after log in, this route adds guest cart items into user's order in the DB
 router.put('/newUserOrder', isLoggedInGate, async (req, res, next) => {
   try {
+    //get the user's pending order
     let order = await Order.findOne({
       where: {userId: req.user.id, status: 'pending'},
       include: [{model: Product}]
     })
-    //if order does not contain any products, populate order with items in req.body. else, respond with items already in order.
-    if (order.products.length < 1) {
-      req.body.items.forEach(async item => {
-        try {
-          //if product exists in order, increment quantity
-          //else add product
-          let [orderProductEntry] = await OrderProduct.findOrCreate({
-            where: {
-              productId: item.id,
-              orderId: order.id
-            }
-          })
-          let newQuantity =
-            orderProductEntry.quantity +
-            parseInt(item.order_products.quantity, 10)
-          await orderProductEntry.update({quantity: newQuantity})
-          order = await Order.findOne({
-            where: {userId: req.user.id, status: 'pending'},
-            include: [{model: Product}]
-          })
-        } catch (error) {
-          next(error)
-        }
-      })
-    }
-
+    //for each item in the user's guest cart, check if item is in user's order DB.  If so, increment quantity.  Otherwise, add item to user's order DB.
+    req.body.items.forEach(async item => {
+      try {
+        let [orderProductEntry] = await OrderProduct.findOrCreate({
+          where: {
+            productId: item.id,
+            orderId: order.id
+          }
+        })
+        let newQuantity =
+          orderProductEntry.quantity +
+          parseInt(item.order_products.quantity, 10)
+        await orderProductEntry.update({quantity: newQuantity})
+      } catch (error) {
+        next(error)
+      }
+    })
+    order = await Order.findOne({
+      where: {userId: req.user.id, status: 'pending'},
+      include: [{model: Product}]
+    })
     res.status(201).json(order)
   } catch (error) {
     next(error)
@@ -125,11 +121,7 @@ router.post(
       })
 
       let oldQuantity = orderProductEntry.quantity
-      console.log('REQ BODY QUANTITY', req.body.quantity)
-      console.log('oldquantity', oldQuantity)
-      console.log('Typeof oldquant', typeof oldQuantity)
       let newQuantity = oldQuantity + parseInt(req.body.quantity, 10)
-      console.log('NEW QUANTITY', newQuantity)
       await orderProductEntry.update({
         quantity: newQuantity
       })
