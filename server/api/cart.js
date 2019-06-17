@@ -18,6 +18,15 @@ const reqQueryOrderBelongsToUser = async (req, res, next) => {
   }
 }
 
+const reqBodyOrderBelongsToUser = async (req, res, next) => {
+  try {
+    let order = await Order.findOne({where: {id: req.body.orderId}})
+    order.userId === req.user.id ? next() : res.send('Please log in!')
+  } catch (error) {
+    next(error)
+  }
+}
+
 router.get('/', isLoggedInGate, async (req, res, next) => {
   try {
     let items = await Order.findOne({
