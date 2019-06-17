@@ -12,6 +12,7 @@ import {
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
+import Card from 'react-bootstrap/Card'
 
 class Cart extends React.Component {
   constructor() {
@@ -43,13 +44,6 @@ class Cart extends React.Component {
     this.setState({quantity: event.target.value})
   }
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   // const quantity = evt.target.quantity.value
-
-  //   // this.props.sendOrder(orderId) we need another reducer for order
-  // }
-
   render() {
     //SSW: disabled loading check because it was disrupting loading initial shopping cart for Guests
     //we should consider removing "Loading" from our cart redux state
@@ -65,9 +59,8 @@ class Cart extends React.Component {
     }, 0)
 
     return (
-      <div>
+      <React.Fragment>
         <h2>Cart</h2>
-        {!cartItems.length && <p>You CArt is empty</p>}
         <Table responsive="sm">
           <thead>
             <tr>
@@ -80,6 +73,11 @@ class Cart extends React.Component {
             </tr>
           </thead>
           <tbody>
+            {!cartItems.length && (
+              <tr>
+                <td>You Cart is empty...</td>
+              </tr>
+            )}
             {cartItems.length > 0 &&
               cartItems.map(item => (
                 <tr key={item.id}>
@@ -169,22 +167,27 @@ class Cart extends React.Component {
               ))}
           </tbody>
         </Table>
-        <React.Fragment>
+        <Card border="light" style={{width: '18rem'}}>
           {!!cartItems.length && (
             <div>
               {/* Convert a number into a string, keeping only two decimals */}
-              <p>{`Total: $${orderTotal.toFixed(2)}`}</p>
-              <div>
+              <Card.Header>Order Summary</Card.Header>
+              <Card.Body>
+                {/* <Card.Text>{`Subtotal:  $${orderTotal.toFixed(2)}`}</Card.Text>
+                <Card.Text>Shipping: free</Card.Text>
+                <Card.Text>Tax: $0.00</Card.Text> */}
+                <h3>{`Total:  $${orderTotal.toFixed(2)}`}</h3>
+                <hr />
                 <Checkout
                   orderId={this.props.order.id}
                   total={orderTotal}
                   user={this.props.user}
                 />
-              </div>
+              </Card.Body>
             </div>
           )}
-        </React.Fragment>
-      </div>
+        </Card>
+      </React.Fragment>
     )
   }
 }
