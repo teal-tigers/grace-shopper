@@ -2387,7 +2387,7 @@ var reducer = function reducer() {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, me, auth, addUserThunk, logout, getAllProductsThunk, getProductStyleThunk, getUserAccountThunk, addedItem, clearCart, deletedItemAction, guestUpdatedQuantityAction, getOrderAndItemsThunk, addItemThunk, deleteItemThunk, submitOrderThunk, saveGuestCartThunk, updateQuantityThunk */
+/*! exports provided: default, me, auth, addUserThunk, logout, getAllProductsThunk, getProductStyleThunk, addedItem, clearCart, deletedItemAction, guestUpdatedQuantityAction, getOrderAndItemsThunk, addItemThunk, deleteItemThunk, submitOrderThunk, saveGuestCartThunk, updateQuantityThunk, getUserAccountThunk */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50289,7 +50289,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
