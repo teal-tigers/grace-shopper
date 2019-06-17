@@ -2,7 +2,6 @@ import React from 'react'
 import {getAllProductsThunk} from '../store/product'
 import {connect} from 'react-redux'
 import SingleProduct from './SingleProduct'
-import {saveGuestCartThunk} from '../store/cart'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Container from 'react-bootstrap/Container'
 
@@ -35,8 +34,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getAllProductsThunk: () => dispatch(getAllProductsThunk()),
-  saveGuestCartThunk: cartItems => dispatch(saveGuestCartThunk(cartItems))
+  getAllProductsThunk: () => dispatch(getAllProductsThunk())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)

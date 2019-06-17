@@ -31,7 +31,6 @@ class Routes extends Component {
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
-          <Route path="/signup/confirm" component={SignupConfirm} />
           <Route path="/signup" component={Signup} />
           <Route
             path="/home"
@@ -60,6 +59,10 @@ class Routes extends Component {
               />
             )}
           />
+          {isLoggedIn && <Route path="/login/confirm" component={UserHome} />}
+          {isLoggedIn && (
+            <Route path="/signup/confirm" component={SignupConfirm} />
+          )}
           {/* Displays our AllProducts component as a fallback */}
 
           <Route path="/" component={AllProducts} />
