@@ -2,6 +2,11 @@ import React from 'react'
 import {getProductStyleThunk} from '../store/product'
 import {addItemThunk, getOrderAndItemsThunk, addedItem} from '../store/cart'
 import {connect} from 'react-redux'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
 class SingleProductDetails extends React.Component {
   constructor() {
@@ -63,39 +68,52 @@ class SingleProductDetails extends React.Component {
     return productStyle.length < 1 ? (
       ''
     ) : (
-      <div>
-        <h1>{productStyle[0].name}</h1>
-        <img src={productStyle[0].imageUrl} width="75px" height="75px" />
-        <p>{productStyle[0].description}</p>
-        <p>${productStyle[0].price}</p>
-        <div>
-          <label>Quantity: </label>
-          <select onChange={this.handleChangeQuantity} name="Quantity">
-            <option value="">-</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-        <div>
-          <label>Size: </label>
-          <select onChange={this.handleChangeSize} name="Size">
-            <option value="">-</option>
-            {productStyle.map(product => (
-              <option key={product.id} value={product.id}>
-                {product.size}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <button type="submit" onClick={this.handleSubmit}>
-            Add To Cart
-          </button>
-        </div>
-      </div>
+      <Row>
+        <Col>
+          <Image src={productStyle[0].imageUrl} style={{width: '90%'}} />
+        </Col>
+        <Col>
+          <Card style={{border: 'none'}}>
+            <Card.Title>{productStyle[0].name}</Card.Title>
+            <Card.Text>${productStyle[0].price}</Card.Text>
+            <Card.Text>{productStyle[0].description}</Card.Text>
+
+            <React.Fragment>
+              <h6>SIZE: </h6>
+              <select
+                className="browser-default custom-select"
+                style={{width: '8rem', marginBottom: '2rem'}}
+                onChange={this.handleChangeSize}
+                name="Size"
+              >
+                <option value="">-</option>
+                {productStyle.map(product => (
+                  <option key={product.id} value={product.id}>
+                    {product.size}
+                  </option>
+                ))}
+              </select>
+            </React.Fragment>
+            <h6>QTY: </h6>
+            <select
+              className="browser-default custom-select"
+              style={{width: '8rem', marginBottom: '2rem'}}
+              onChange={this.handleChangeQuantity}
+              name="Quantity"
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+            <Button type="submit" variant="warning" onClick={this.handleSubmit}>
+              Add To Cart
+            </Button>
+          </Card>
+        </Col>
+      </Row>
     )
   }
 }

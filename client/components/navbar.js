@@ -3,34 +3,51 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout, clearCart} from '../store'
+import NavBar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>MADE FOR WALKING</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/cart">Shopping Cart</Link>
-          <Link to="/home">All Boots</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/home">All Boots</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/cart">Shopping Cart</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
+const Navbar = ({handleClick, isLoggedIn, fullName}) => (
+  <NavBar
+    bg="light justify-content-between"
+    expand="lg"
+    sticky="top"
+    style={{marginBottom: '2rem'}}
+  >
+    <Nav className="justify-content-start">
+      <Nav.Link as={Link} to="/home">
+        Home
+      </Nav.Link>
+      <Nav.Link as={Link} to="/home">
+        Western Boots
+      </Nav.Link>
+    </Nav>
+    <Nav>
+      <Nav.Link as={Link} to="/">
+        MADE FOR WALKING
+      </Nav.Link>
+    </Nav>
+    <Nav className="justify-content-end">
+      <React.Fragment>
+        {isLoggedIn ? (
+          <Nav.Link href="#" onClick={handleClick}>
+            {fullName} / Logout
+          </Nav.Link>
+        ) : (
+          <React.Fragment>
+            <Nav.Link as={Link} to="/login">
+              Login
+            </Nav.Link>
+            <Nav.Link as={Link} to="/signup">
+              Sign Up
+            </Nav.Link>
+          </React.Fragment>
+        )}
+      </React.Fragment>
+      <Nav.Link as={Link} to="/cart">
+        Cart
+      </Nav.Link>
+    </Nav>
+  </NavBar>
 )
 
 /**
@@ -38,7 +55,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    fullName: state.user.fullName
   }
 }
 

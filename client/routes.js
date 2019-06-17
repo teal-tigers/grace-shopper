@@ -13,6 +13,7 @@ import {
   ThankYou
 } from './components'
 import {me} from './store'
+import Container from 'react-bootstrap/Container'
 
 /**
  * COMPONENT
@@ -26,42 +27,44 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup/confirm" component={SignupConfirm} />
-        <Route path="/signup" component={Signup} />
-        <Route
-          path="/home"
-          render={props => (
-            <AllProducts
-              {...props}
-              userId={this.props.userId}
-              isLoggedIn={isLoggedIn}
-            />
-          )}
-        />
-        <Route
-          path="/products"
-          render={props => (
-            <SingleProductDetails {...props} userId={this.props.userId} />
-          )}
-        />
-        <Route path="/thankyou" component={ThankYou} />
-        <Route
-          path="/cart"
-          render={props => (
-            <Cart
-              {...props}
-              userId={this.props.userId}
-              isLoggedIn={isLoggedIn}
-            />
-          )}
-        />
-        {/* Displays our AllProducts component as a fallback */}
+      <Container className="w-responsive mx-auto p-3 mt-2">
+        <Switch>
+          {/* Routes placed here are available to all visitors */}
+          <Route path="/login" component={Login} />
+          <Route path="/signup/confirm" component={SignupConfirm} />
+          <Route path="/signup" component={Signup} />
+          <Route
+            path="/home"
+            render={props => (
+              <AllProducts
+                {...props}
+                userId={this.props.userId}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+          <Route
+            path="/products"
+            render={props => (
+              <SingleProductDetails {...props} userId={this.props.userId} />
+            )}
+          />
+          <Route path="/thankyou" component={ThankYou} />
+          <Route
+            path="/cart"
+            render={props => (
+              <Cart
+                {...props}
+                userId={this.props.userId}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+          {/* Displays our AllProducts component as a fallback */}
 
-        <Route path="/" component={AllProducts} />
-      </Switch>
+          <Route path="/" component={AllProducts} />
+        </Switch>
+      </Container>
     )
   }
 }
