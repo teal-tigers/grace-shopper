@@ -93,7 +93,10 @@ class Cart extends React.Component {
                   <td>
                     <select
                       className="browser-default custom-select"
-                      style={{width: '5rem', marginRight: '0.5rem'}}
+                      style={{
+                        width: '4.8rem',
+                        marginRight: '0.5rem'
+                      }}
                       onChange={this.handleChange}
                       name="quantity"
                       defaultValue={item.order_products.quantity}
@@ -166,7 +169,7 @@ class Cart extends React.Component {
               ))}
           </tbody>
         </Table>
-        <Card border="light" style={{width: '18rem'}}>
+        <Card border="light" style={{width: '22rem'}}>
           {!!cartItems.length && (
             <div>
               {/* Convert a number into a string, keeping only two decimals */}
@@ -175,7 +178,7 @@ class Cart extends React.Component {
                 {/* <Card.Text>{`Subtotal:  $${orderTotal.toFixed(2)}`}</Card.Text>
                 <Card.Text>Shipping: free</Card.Text>
                 <Card.Text>Tax: $0.00</Card.Text> */}
-                <h3>{`Total:  $${orderTotal.toFixed(2)}`}</h3>
+                <Card.Title>{`Total: $${orderTotal.toFixed(2)}`}</Card.Title>
                 <hr />
                 <Checkout
                   orderId={this.props.order.id}
