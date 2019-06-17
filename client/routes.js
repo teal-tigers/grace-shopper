@@ -31,8 +31,8 @@ class Routes extends Component {
       <Container className="w-responsive mx-auto p-3 mt-2">
         <Switch>
           {/* Routes placed here are available to all visitors */}
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
           <Route
             path="/home"
             render={props => (
@@ -60,7 +60,6 @@ class Routes extends Component {
               />
             )}
           />
-          {isLoggedIn && <Route path="/login/confirm" component={UserHome} />}
           {isLoggedIn && (
             <Route path="/signup/confirm" component={SignupConfirm} />
           )}

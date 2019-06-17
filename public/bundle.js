@@ -1036,6 +1036,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _store_account__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/account */ "./client/store/account.js");
 /* harmony import */ var _OrderHistory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./OrderHistory */ "./client/components/OrderHistory.js");
+/* harmony import */ var _store_cart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/cart */ "./client/store/cart.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1059,6 +1060,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var UserAccount =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1074,13 +1076,12 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.getUserAccountThunk();
+      this.props.saveGuestCartThunk(this.props.cartItems);
     }
   }, {
     key: "render",
     value: function render() {
-      var userAccount = this.props.userAccount; // userAccount.fullName, userAccount.address, userAccount.email, userAccount.orders (array)
-      // const orders = props.userAccount.details.orders;
-
+      var userAccount = this.props.userAccount;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1103,7 +1104,8 @@ function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
   return {
     userAccount: state.account.accountDetails,
-    loading: state.account.loading
+    loading: state.account.loading,
+    cartItems: state.cart.cartItems
   };
 };
 
@@ -1111,6 +1113,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getUserAccountThunk: function getUserAccountThunk() {
       return dispatch(Object(_store_account__WEBPACK_IMPORTED_MODULE_2__["getUserAccountThunk"])());
+    },
+    saveGuestCartThunk: function saveGuestCartThunk(cartItems) {
+      return dispatch(Object(_store_cart__WEBPACK_IMPORTED_MODULE_4__["saveGuestCartThunk"])(cartItems));
     }
   };
 };
@@ -1628,9 +1633,11 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Container__WEBPACK_IMPORTED_MODULE_6___default.a, {
         className: "w-responsive mx-auto p-3 mt-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        exact: true,
         path: "/login",
         component: _components__WEBPACK_IMPORTED_MODULE_4__["Login"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        exact: true,
         path: "/signup",
         component: _components__WEBPACK_IMPORTED_MODULE_4__["Signup"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
@@ -1659,9 +1666,6 @@ function (_Component) {
             isLoggedIn: isLoggedIn
           }));
         }
-      }), isLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/login/confirm",
-        component: _components__WEBPACK_IMPORTED_MODULE_4__["UserHome"]
       }), isLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/signup/confirm",
         component: _components__WEBPACK_IMPORTED_MODULE_4__["SignupConfirm"]
@@ -2731,7 +2735,7 @@ var auth = function auth(email, password) {
               case 9:
                 try {
                   dispatch(getUser(res.data));
-                  _history__WEBPACK_IMPORTED_MODULE_1__["default"].push('/login/confirm');
+                  _history__WEBPACK_IMPORTED_MODULE_1__["default"].push('/account');
                 } catch (dispatchOrHistoryErr) {
                   console.error(dispatchOrHistoryErr);
                 }
@@ -49868,7 +49872,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

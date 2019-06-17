@@ -2,15 +2,16 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getUserAccountThunk} from '../store/account'
 import OrderHistory from './OrderHistory'
+import {saveGuestCartThunk} from '../store/cart'
 
 class UserAccount extends React.Component {
   componentDidMount() {
     this.props.getUserAccountThunk()
+    this.props.saveGuestCartThunk(this.props.cartItems)
   }
 
   render() {
-    const {userAccount} = this.props // userAccount.fullName, userAccount.address, userAccount.email, userAccount.orders (array)
-    // const orders = props.userAccount.details.orders;
+    const {userAccount} = this.props
 
     return (
       <div>
@@ -55,11 +56,13 @@ class UserAccount extends React.Component {
 
 const mapStateToProps = state => ({
   userAccount: state.account.accountDetails,
-  loading: state.account.loading
+  loading: state.account.loading,
+  cartItems: state.cart.cartItems
 })
 
 const mapDispatchToProps = dispatch => ({
-  getUserAccountThunk: () => dispatch(getUserAccountThunk())
+  getUserAccountThunk: () => dispatch(getUserAccountThunk()),
+  saveGuestCartThunk: cartItems => dispatch(saveGuestCartThunk(cartItems))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserAccount)
