@@ -7,7 +7,6 @@ class SignUpConfirm extends React.Component {
     this.props.saveGuestCartThunk(this.props.cartItems)
   }
   render() {
-    console.log('PROPS', this.props)
     return (
       <div>
         <h2>{this.props.name}, thank you for signing up!</h2>

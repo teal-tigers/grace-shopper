@@ -113,10 +113,14 @@ async function seed() {
   let boots = await Product.findAll({where: {size: '10'}})
 
   await order.setProducts(boots)
-  await OrderProduct.update(
-    {quantity: 5},
-    {where: {orderId: order.id, productId: boots[0].id}}
-  )
+
+  boots.forEach(async boot => {
+    await OrderProduct.update(
+      {quantity: 5},
+      {where: {orderId: order.id, productId: boot.id}}
+    )
+  })
+
   await order.calculateTotal()
 
   console.log(`seeded ${users.length} users and ${products.length} products`)

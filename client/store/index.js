@@ -8,11 +8,16 @@ import cart from './cart'
 import account from './account'
 
 const reducer = combineReducers({user, product, cart, account})
-const middleware = composeWithDevTools(
+const devMiddleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
 
-const store = createStore(reducer, middleware)
+const prodMiddleware = composeWithDevTools(applyMiddleware(thunkMiddleware))
+
+const store =
+  process.env.NODE_ENV === 'production'
+    ? createStore(reducer, prodMiddleware)
+    : createStore(reducer, devMiddleware)
 
 store.subscribe(() => {
   let cartItems = store.getState().cart.cartItems
