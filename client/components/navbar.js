@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom'
 import {logout, clearCart} from '../store'
 import NavBar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import Badge from 'react-bootstrap/Badge'
 
 const Navbar = ({handleClick, isLoggedIn, fullName}) => (
   <NavBar
@@ -13,45 +15,49 @@ const Navbar = ({handleClick, isLoggedIn, fullName}) => (
     sticky="top"
     style={{marginBottom: '2rem'}}
   >
-    <Nav className="justify-content-start">
-      <Nav.Link as={Link} to="/home">
-        Home
-      </Nav.Link>
-      <Nav.Link as={Link} to="/home">
-        Western Boots
-      </Nav.Link>
-    </Nav>
-    <Nav>
-      <Nav.Link as={Link} to="/">
-        MADE FOR WALKING
-      </Nav.Link>
-    </Nav>
-    <Nav className="justify-content-end">
-      <React.Fragment>
-        {isLoggedIn ? (
-          <React.Fragment>
-            <Nav.Link as={Link} to="/account">
-              {fullName}
-            </Nav.Link>
-            <Nav.Link href="#" onClick={handleClick}>
-              Logout
-            </Nav.Link>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Nav.Link as={Link} to="/login">
-              Login
-            </Nav.Link>
-            <Nav.Link as={Link} to="/signup">
-              Sign Up
-            </Nav.Link>
-          </React.Fragment>
-        )}
-      </React.Fragment>
-      <Nav.Link as={Link} to="/cart">
-        Cart
-      </Nav.Link>
-    </Nav>
+    <NavBar.Brand as={Link} to="/">
+      MADE FOR WALKING
+    </NavBar.Brand>
+    <NavBar.Toggle aria-controls="responsive-navbar-nav" />
+    <NavBar.Collapse id="responsive-navbar-nav">
+      <Nav className="mr-auto">
+        {/* <Nav.Link as={Link} to="/home">
+          <FontAwesomeIcon icon="home" size="2x" />
+        </Nav.Link> */}
+        <Nav.Link as={Link} to="/home">
+          Western Boots
+        </Nav.Link>
+      </Nav>
+      <Nav>
+        <React.Fragment>
+          {isLoggedIn ? (
+            <React.Fragment>
+              <Nav.Link as={Link} to="/account">
+                {fullName}
+              </Nav.Link>
+              <Nav.Link href="#" onClick={handleClick}>
+                Logout
+              </Nav.Link>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Nav.Link as={Link} to="/login">
+                Login
+              </Nav.Link>
+              <Nav.Link as={Link} to="/signup">
+                Sign Up
+              </Nav.Link>
+            </React.Fragment>
+          )}
+        </React.Fragment>
+        <Nav.Link as={Link} to="/cart">
+          <FontAwesomeIcon icon="shopping-cart" size="1x" />
+          {/* <Badge pill variant="light">
+            <p>0</p>
+          </Badge> */}
+        </Nav.Link>
+      </Nav>
+    </NavBar.Collapse>
   </NavBar>
 )
 

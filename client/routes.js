@@ -6,13 +6,11 @@ import {
   Login,
   Signup,
   SignupConfirm,
-  UserHome,
   UserAccount,
   AllProducts,
   SingleProductDetails,
   Cart,
-  ThankYou,
-  Footer
+  ThankYou
 } from './components'
 import {me} from './store'
 import Container from 'react-bootstrap/Container'
