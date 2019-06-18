@@ -595,7 +595,7 @@ var Footer = function Footer() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Navbar__WEBPACK_IMPORTED_MODULE_1___default.a, {
     bg: "light",
     variant: "dark",
-    sticky: "bottom"
+    fixed: "bottom"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Nav__WEBPACK_IMPORTED_MODULE_2___default.a, {
     className: "w-responsive mx-auto p-3 mt-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
