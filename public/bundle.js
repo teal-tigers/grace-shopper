@@ -588,12 +588,12 @@ var OrderHistory = function OrderHistory(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-center"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Order History")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, orders.map(function (order) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return order.status === 'complete' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: order.id
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SingleOrder__WEBPACK_IMPORTED_MODULE_1__["default"], {
       order: order,
       key: order.id
-    }));
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)) : null;
   })))));
 };
 
