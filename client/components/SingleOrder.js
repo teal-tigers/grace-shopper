@@ -21,8 +21,8 @@ const SingleOrder = props => {
           </tr>
         </thead>
 
-        {order.products.map(product => (
-          <tbody>
+        <tbody>
+          {order.products.map(product => (
             <tr key={product.id}>
               <td>
                 <Image src={product.imageUrl} style={{width: '5rem'}} />
@@ -31,20 +31,20 @@ const SingleOrder = props => {
                 <p>{product.name}</p>
                 <p>Size: {product.size}</p>
               </td>
-              <td data-th="Price">
+              <td>
                 <p>{`$${product.price}`}</p>
               </td>
-              <td data-th="Quantity">{product.order_products.quantity}</td>
-              <td data-th="Subtotal">
+              <td>{product.order_products.quantity}</td>
+              <td>
                 $ {(product.order_products.quantity * product.price).toFixed(2)}
               </td>
             </tr>
-          </tbody>
-        ))}
+          ))}
+        </tbody>
 
         <tfoot>
           <tr>
-            <td data-th="Product">
+            <td>
               <strong>Shipping Status: {order.status}</strong>
             </td>
             <td colSpan="2" className="hidden-xs" />

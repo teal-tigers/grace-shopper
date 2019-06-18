@@ -31,3 +31,7 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+table {
+  table-layout: fixed;
+}
