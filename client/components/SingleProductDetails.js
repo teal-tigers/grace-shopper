@@ -8,6 +8,8 @@ import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Toast from 'react-bootstrap/Toast'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
 
 class SingleProductDetails extends React.Component {
   constructor() {
@@ -15,13 +17,15 @@ class SingleProductDetails extends React.Component {
     this.state = {
       quantity: '',
       size: '',
-      show: false
+      show: false,
+      validated: false
     }
     this.handleChangeQuantity = this.handleChangeQuantity.bind(this)
     this.handleChangeSize = this.handleChangeSize.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleClose = this.handleClose.bind(this)
-    this.handleShow = this.handleShow.bind(this)
+    // this.handleClose = this.handleClose.bind(this)
+    // this.handleShow = this.handleShow.bind(this)
+    this.handleSubmitValidation = this.handleSubmitValidation.bind(this)
   }
 
   componentDidMount() {
@@ -38,11 +42,19 @@ class SingleProductDetails extends React.Component {
       this.props.getOrderAndItemsThunk()
     }
   }
-  handleShow() {
-    this.setState({show: true})
-  }
-  handleClose() {
-    this.setState({show: false})
+  // // handleShow() {
+  // //   this.setState({show: true})
+  // // }
+  // // handleClose() {
+  // //   this.setState({show: false})
+  // }
+  handleSubmitValidation(event) {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    this.setState({validated: true})
   }
 
   handleSubmit(event) {
@@ -65,7 +77,8 @@ class SingleProductDetails extends React.Component {
         order_products: {quantity: this.state.quantity}
       })
     }
-    this.handleShow()
+    this.handleSubmitValidation(event)
+    // this.handleShow()
   }
 
   handleChangeQuantity(event) {
@@ -79,6 +92,7 @@ class SingleProductDetails extends React.Component {
   }
 
   render() {
+    const {validated} = this.state
     if (this.props.loading) {
       return <div>LOADING...</div>
     }
@@ -96,9 +110,11 @@ class SingleProductDetails extends React.Component {
             <Card.Text>${productStyle[0].price}</Card.Text>
             <Card.Text>{productStyle[0].description}</Card.Text>
 
-            <React.Fragment>
+            <Form onSubmit={this.handleSubmit} noValidate validated={validated}>
               <h6>SIZE: </h6>
-              <select
+              <Form.Control
+                as="select"
+                required
                 className="browser-default custom-select"
                 style={{width: '8rem', marginBottom: '2rem'}}
                 onChange={this.handleChangeSize}
@@ -110,32 +126,34 @@ class SingleProductDetails extends React.Component {
                     {product.size}
                   </option>
                 ))}
-              </select>
-            </React.Fragment>
-            <h6>QTY: </h6>
-            <select
-              className="browser-default custom-select"
-              style={{width: '8rem', marginBottom: '2rem'}}
-              onChange={this.handleChangeQuantity}
-              name="Quantity"
-            >
-              <option value="">-</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
+              </Form.Control>
+              <h6>QTY: </h6>
+              <Form.Control
+                as="select"
+                required
+                className="browser-default custom-select"
+                style={{width: '8rem', marginBottom: '2rem'}}
+                onChange={this.handleChangeQuantity}
+                name="Quantity"
+              >
+                <option value="">-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </Form.Control>
 
-            <Button
-              style={{marginBottom: '2rem'}}
-              type="submit"
-              variant="warning"
-              onClick={this.handleSubmit}
-            >
-              Add To Cart
-            </Button>
-            <Toast
+              <Button
+                block
+                style={{marginBottom: '2rem'}}
+                type="submit"
+                variant="warning"
+              >
+                Add To Cart
+              </Button>
+            </Form>
+            {/* <Toast
               onClose={this.handleClose}
               show={this.state.show}
               delay={3000}
@@ -150,7 +168,7 @@ class SingleProductDetails extends React.Component {
                 <strong className="mr-auto">Added to your Cart</strong>
               </Toast.Header>
               <Toast.Body>Keep Shopping!</Toast.Body>
-            </Toast>
+            </Toast> */}
           </Card>
         </Col>
       </Row>
