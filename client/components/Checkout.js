@@ -12,8 +12,7 @@ class Checkout extends React.Component {
     this.state = {
       address: this.props.user.address,
       promo: '',
-      total: this.props.total,
-      promoUsed: false
+      total: [this.props.total, false]
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -28,13 +27,12 @@ class Checkout extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log('STATE:', this.state)
     event.preventDefault()
+    console.log('STATE:', this.state)
     this.props.submitOrderThunk(
       this.props.orderId,
       this.state.address,
-      this.state.total,
-      this.state.promoUsed
+      this.state.total
     )
     this.props.clearCart()
     this.setState({
@@ -48,7 +46,7 @@ class Checkout extends React.Component {
     event.preventDefault()
     if (this.state.promo === 'ranchlife') {
       let halfTotal = this.props.total / 2
-      this.setState({total: halfTotal, promoUsed: true})
+      this.setState({total: [halfTotal, true]})
     }
   }
 
@@ -60,7 +58,7 @@ class Checkout extends React.Component {
       </React.Fragment>
     ) : (
       <React.Fragment>
-        <h3>{`Total: $${this.state.total.toFixed(2)}`}</h3>
+        <h3>{`Total: $${this.state.total[0].toFixed(2)}`}</h3>
         <Form onSubmit={this.promoHandler}>
           <Form.Label style={{marginTop: '2rem', marginBottom: '2rem'}}>
             <strong>{this.props.user.fullName}</strong>, please complete

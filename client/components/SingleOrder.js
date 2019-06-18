@@ -56,10 +56,23 @@ const SingleOrder = props => {
                   <strong>Shipping Status: {order.status}</strong>
                 </td>
                 <td colSpan="2" className="hidden-xs" />
-                <td className="hidden-xs text-center">
-                  <strong>Total $ {order.total}</strong>
-                </td>
+                {!order.promo ? (
+                  <td className="hidden-xs text-center">
+                    <strong>Total $ {order.total}</strong>
+                  </td>
+                ) : null}
               </tr>
+              {order.promo ? (
+                <tr>
+                  <td data-th="Product">
+                    <strong>Promo Applied: 50% off!</strong>
+                  </td>
+                  <td colSpan="2" className="hidden-xs" />
+                  <td className="hidden-xs text-center">
+                    <strong>Total $ {order.total}</strong>
+                  </td>
+                </tr>
+              ) : null}
             </tfoot>
           </table>
         </div>

@@ -101,19 +101,13 @@ export const deleteItemThunk = (orderId, productId) => async dispatch => {
 
 //takes orderId and productId, and dispatches updatedQuantity with object that represents product object, joined with associated order_products info
 
-export const submitOrderThunk = (
-  orderId,
-  address,
-  total,
-  promo
-) => async dispatch => {
+export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   try {
-    console.log('THUNK PROMO', promo)
+    console.log('total', total)
     const {data} = await axios.post('/api/cart/total', {
       orderId,
       address,
-      total,
-      promo
+      total
     })
     dispatch(gotOrder(data))
     history.push('/thankyou')
