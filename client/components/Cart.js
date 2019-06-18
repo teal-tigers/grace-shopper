@@ -74,7 +74,7 @@ class Cart extends React.Component {
           <tbody>
             {!cartItems.length && (
               <tr>
-                <td>You Cart is empty...</td>
+                <td>Your Cart is empty...</td>
               </tr>
             )}
             {cartItems.length > 0 &&
@@ -178,7 +178,6 @@ class Cart extends React.Component {
                 {/* <Card.Text>{`Subtotal:  $${orderTotal.toFixed(2)}`}</Card.Text>
                 <Card.Text>Shipping: free</Card.Text>
                 <Card.Text>Tax: $0.00</Card.Text> */}
-                <Card.Title>{`Total: $${orderTotal.toFixed(2)}`}</Card.Title>
                 <hr />
                 <Checkout
                   orderId={this.props.order.id}

@@ -10,10 +10,14 @@ class Checkout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      address: this.props.user.address
+      address: this.props.user.address,
+      promo: '',
+      total: this.props.total,
+      promoUsed: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.promoHandler = this.promoHandler.bind(this)
   }
 
   handleChange(event) {
@@ -24,14 +28,28 @@ class Checkout extends React.Component {
   }
 
   handleSubmit(event) {
+    console.log('STATE:', this.state)
     event.preventDefault()
     this.props.submitOrderThunk(
       this.props.orderId,
       this.state.address,
-      this.props.total
+      this.state.total,
+      this.state.promoUsed
     )
     this.props.clearCart()
-    this.setState({address: this.props.user.address})
+    this.setState({
+      address: this.props.user.address,
+      promoUsed: false,
+      promo: ''
+    })
+  }
+
+  promoHandler(event) {
+    event.preventDefault()
+    if (this.state.promo === 'ranchlife') {
+      let halfTotal = this.props.total / 2
+      this.setState({total: halfTotal, promoUsed: true})
+    }
   }
 
   render() {
@@ -41,22 +59,44 @@ class Checkout extends React.Component {
         to complete checkout
       </React.Fragment>
     ) : (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Label style={{marginTop: '2rem', marginBottom: '2rem'}}>
-          <strong>{this.props.user.fullName}</strong>, please complete checkout
-        </Form.Label>
-        <Form.Label>Shipping Address</Form.Label>
-        <FormControl
-          name="address"
-          type="text"
-          value={this.state.address}
-          onChange={this.handleChange}
-          style={{marginBottom: '2rem'}}
-        />
-        <Button type="submit" variant="info" block>
-          Complete Purchase
-        </Button>
-      </Form>
+      <React.Fragment>
+        <h3>{`Total: $${this.state.total.toFixed(2)}`}</h3>
+        <Form onSubmit={this.promoHandler}>
+          <Form.Label style={{marginTop: '2rem', marginBottom: '2rem'}}>
+            <strong>{this.props.user.fullName}</strong>, please complete
+            checkout
+          </Form.Label>
+          <Form.Label>Enter Promo Code</Form.Label>
+          <FormControl
+            name="promo"
+            type="text"
+            value={this.state.promo}
+            onChange={this.handleChange}
+            style={{marginBottom: '2rem'}}
+          />
+          <Button
+            type="submit"
+            variant="outline-info"
+            block
+            style={{marginBottom: '2rem'}}
+          >
+            Add Promo
+          </Button>
+        </Form>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Label>Shipping Address</Form.Label>
+          <FormControl
+            name="address"
+            type="text"
+            value={this.state.address}
+            onChange={this.handleChange}
+            style={{marginBottom: '2rem'}}
+          />
+          <Button type="submit" variant="info" block>
+            Complete Purchase
+          </Button>
+        </Form>
+      </React.Fragment>
     )
   }
 }

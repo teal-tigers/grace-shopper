@@ -42,7 +42,10 @@ router.get('/', isLoggedInGate, async (req, res, next) => {
 //SSW: updates total amount, shipping address (if any), and status to "completed" when user submits their order, and creates a new order entry for the user's next "pending" order.
 router.post('/total', isLoggedInGate, async (req, res, next) => {
   try {
-    let {orderId, address, total} = req.body
+    let {orderId, address, total, promo} = req.body
+    console.log(
+      `orderId: ${orderId}, address: ${address}, total: ${total}, promo ${promo}`
+    )
     let order = await Order.findOrCreate({
       where: {
         id: orderId
@@ -52,13 +55,15 @@ router.post('/total', isLoggedInGate, async (req, res, next) => {
     if (address.length < 1) {
       order = await order[0].update({
         total: total,
-        status: 'complete'
+        status: 'complete',
+        promo: promo
       })
     } else {
       order = await order[0].update({
         total: total,
         shippingAddress: address,
-        status: 'complete'
+        status: 'complete',
+        promo: promo
       })
     }
 
