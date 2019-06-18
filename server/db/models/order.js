@@ -15,6 +15,10 @@ const Order = db.define('order', {
   total: {
     type: Sequelize.DECIMAL,
     defaultValue: 0
+  },
+  promo: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 

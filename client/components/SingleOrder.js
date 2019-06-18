@@ -42,19 +42,34 @@ const SingleOrder = props => {
           ))}
         </tbody>
 
-        <tfoot>
-          <tr>
-            <td>
-              <strong>Shipping Status: {order.status}</strong>
-            </td>
-            <td colSpan="2" className="hidden-xs" />
-            <td className="hidden-xs text-center">
-              <strong>Total $ {order.total}</strong>
-            </td>
-          </tr>
-        </tfoot>
+
+         <tfoot>
+              <tr>
+                <td data-th="Product">
+                  <strong>Shipping Status: {order.status}</strong>
+                </td>
+                <td colSpan="2" className="hidden-xs" />
+                {!order.promo ? (
+                  <td className="hidden-xs text-center">
+                    <strong>Total $ {order.total}</strong>
+                  </td>
+                ) : null}
+              </tr>
+              {order.promo ? (
+                <tr>
+                  <td data-th="Product">
+                    <strong>Promo Applied: 50% off!</strong>
+                  </td>
+                  <td colSpan="2" className="hidden-xs" />
+                  <td className="hidden-xs text-center">
+                    <strong>Total $ {order.total}</strong>
+                  </td>
+                </tr>
+              ) : null}
+            </tfoot>
       </Table>
     </React.Fragment>
+
   )
 }
 
