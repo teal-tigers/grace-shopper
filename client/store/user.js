@@ -62,9 +62,8 @@ export const addUserThunk = (
       password,
       address
     })
-    //SSW: this will redirect user to home page after they create an account
     dispatch(getUser(data))
-    history.push('/signup/confirm')
+    history.push('/account')
   } catch (error) {
     console.log('There is an error with addUserThunk: ', error)
   }
