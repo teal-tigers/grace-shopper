@@ -1,6 +1,5 @@
 import React from 'react'
-import {getProductStyleThunk} from '../store/product'
-import {addItemThunk, getOrderAndItemsThunk, addedItem} from '../store/cart'
+import {addItemThunk, addedItem} from '../store/cart'
 import {connect} from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Toast from 'react-bootstrap/Toast'
@@ -22,21 +21,6 @@ class FormAddToCart extends React.Component {
     this.handleShow = this.handleShow.bind(this)
     this.handleSubmitValidation = this.handleSubmitValidation.bind(this)
   }
-
-  // componentDidMount() {
-  //   let params = new URLSearchParams(document.location.search)
-  //   let productName = params.get('name')
-  //   this.props.getProductStyleThunk(productName)
-  //   if (this.props.userId) {
-  //     this.props.getOrderAndItemsThunk()
-  //   }
-  // }
-
-  // componentDidUpdate(prev) {
-  //   if (this.props.userId && this.props.userId !== prev.userId) {
-  //     this.props.getOrderAndItemsThunk()
-  //   }
-  // }
 
   handleShow() {
     this.setState({show: true})
@@ -166,8 +150,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  // getProductStyleThunk: name => dispatch(getProductStyleThunk(name)),
-  // getOrderAndItemsThunk: userId => dispatch(getOrderAndItemsThunk(userId)),
   addItemThunk: (orderId, productId, quantity) =>
     dispatch(addItemThunk(orderId, productId, quantity)),
   addedItem: item => dispatch(addedItem(item))
