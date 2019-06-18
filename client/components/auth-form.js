@@ -16,7 +16,7 @@ const AuthForm = props => {
 
   return (
     <Card style={{width: '30rem'}}>
-      <Card.Header>Welome</Card.Header>
+      <Card.Header>Welcome</Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit} name={name}>
           {displayName === 'Sign Up' && (
