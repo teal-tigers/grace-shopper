@@ -2,6 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth, addUserThunk, saveGuestCartThunk} from '../store'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import FormControl from 'react-bootstrap/FormControl'
+import Card from 'react-bootstrap/Card'
 
 /**
  * COMPONENT
@@ -11,43 +15,59 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error, cartItems} = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        {displayName === 'Sign Up' && (
-          <div>
-            <div>
-              <label htmlFor="fullname">
-                <small>Name</small>
-              </label>
-              <input name="fullname" type="text" required />
-            </div>
-            <div>
-              <label htmlFor="address">
-                <small>Address</small>
-              </label>
-              <input name="address" type="text" />
-            </div>
-          </div>
-        )}
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.message && <div> {error.message} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
+    <Card style={{width: '30rem'}}>
+      <Card.Header>Welome</Card.Header>
+      <Card.Body>
+        <Form onSubmit={handleSubmit} name={name}>
+          {displayName === 'Sign Up' && (
+            <React.Fragment>
+              <Form.Label>Full Name</Form.Label>
+              <FormControl
+                name="fullname"
+                type="text"
+                required
+                style={{marginBottom: '1.5rem'}}
+              />
+
+              <Form.Label>Address</Form.Label>
+              <FormControl
+                name="address"
+                type="text"
+                style={{marginBottom: '1.5rem'}}
+              />
+            </React.Fragment>
+          )}
+
+          <Form.Label>Email</Form.Label>
+          <FormControl
+            name="email"
+            type="text"
+            required
+            style={{marginBottom: '1.5rem'}}
+          />
+
+          <Form.Label>Password</Form.Label>
+          <FormControl
+            name="password"
+            type="password"
+            required
+            style={{marginBottom: '1.5rem'}}
+          />
+
+          <Button
+            block
+            type="submit"
+            variant="info"
+            style={{marginBottom: '1.5rem', marginTop: '1.5rem'}}
+          >
+            {displayName}
+          </Button>
+
+          {error && error.message && <div> {error.message} </div>}
+        </Form>
+        <a href="/auth/google">{displayName} with Google</a>
+      </Card.Body>
+    </Card>
   )
 }
 
