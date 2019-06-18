@@ -13,11 +13,15 @@ const OrderHistory = props => {
           </div>
 
           <div>
-            {orders.map(order => (
-              <div key={order.id}>
-                <SingleOrder order={order} key={order.id} />
-              </div>
-            ))}
+            {orders.map(order => {
+              return order.status === 'complete' ? (
+                <div key={order.id}>
+                  <SingleOrder order={order} key={order.id} />
+                  <br />
+                  <br />
+                </div>
+              ) : null
+            })}
           </div>
         </div>
       </div>
