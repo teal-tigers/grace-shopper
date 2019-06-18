@@ -13,6 +13,10 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Form from 'react-bootstrap/Form'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 
 class Cart extends React.Component {
   constructor() {
@@ -91,22 +95,35 @@ class Cart extends React.Component {
                     <p>{`$${item.price}`}</p>
                   </td>
                   <td>
-                    <select
-                      className="browser-default custom-select"
-                      style={{
-                        width: '4.8rem',
-                        marginRight: '0.5rem'
-                      }}
+                    <InputGroup
+                      // // style={{
+                      // //   width: '2rem',
+                      // //   marginRight: '0.5rem'
+                      // }}
                       onChange={this.handleChange}
                       name="quantity"
-                      defaultValue={item.order_products.quantity}
                     >
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
+                      <InputGroup.Prepend>
+                        <InputGroup.Text>
+                          {item.order_products.quantity}
+                        </InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <Form.Control
+                        as="select"
+                        required
+                        className="browser-default custom-select"
+                        style={{width: '8rem', marginBottom: '2rem'}}
+                        onChange={this.handleChange}
+                        name="Quantity"
+                      >
+                        <option value="">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </Form.Control>
+                    </InputGroup>
 
                     {/* this ternary and the one below triggers different actions
                    depending on whether user is logged in or guest */}
