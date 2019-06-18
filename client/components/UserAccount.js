@@ -17,7 +17,7 @@ class UserAccount extends React.Component {
       <div>
         <div className="container">
           <div className="row">
-            <div className="col-sm-6">
+            <div className="col-sm-6 hidden-xs text-center">
               <div>
                 <h2>Account Information</h2>
               </div>
@@ -29,7 +29,7 @@ class UserAccount extends React.Component {
               </div>
             </div>
 
-            <div className="col-sm-6">
+            <div className="col-sm-6 hidden-xs text-center">
               <div>
                 <h2>Default Address</h2>
               </div>
