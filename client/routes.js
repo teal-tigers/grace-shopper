@@ -11,7 +11,8 @@ import {
   AllProducts,
   SingleProductDetails,
   Cart,
-  ThankYou
+  ThankYou,
+  Footer
 } from './components'
 import {me} from './store'
 import Container from 'react-bootstrap/Container'
