@@ -103,6 +103,7 @@ export const deleteItemThunk = (orderId, productId) => async dispatch => {
 
 export const submitOrderThunk = (orderId, address, total) => async dispatch => {
   try {
+    console.log('total', total)
     const {data} = await axios.post('/api/cart/total', {
       orderId,
       address,

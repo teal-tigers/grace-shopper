@@ -43,6 +43,7 @@ router.get('/', isLoggedInGate, async (req, res, next) => {
 router.post('/total', isLoggedInGate, async (req, res, next) => {
   try {
     let {orderId, address, total} = req.body
+    console.log(`orderId: ${orderId}, address: ${address}, total: ${total}`)
     let order = await Order.findOrCreate({
       where: {
         id: orderId
@@ -51,14 +52,16 @@ router.post('/total', isLoggedInGate, async (req, res, next) => {
 
     if (address.length < 1) {
       order = await order[0].update({
-        total: total,
-        status: 'complete'
+        total: total[0],
+        status: 'complete',
+        promo: total[1]
       })
     } else {
       order = await order[0].update({
-        total: total,
+        total: total[0],
         shippingAddress: address,
-        status: 'complete'
+        status: 'complete',
+        promo: total[1]
       })
     }
 
