@@ -187,7 +187,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vegan Going West Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vegan.jpeg',
       description:
         'Textured vegan leather ankle boots featured in a western-inspired silhouette with a stacked heel and pointed toe style.',
       price: '348.00',
@@ -195,7 +195,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vegan Going West Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vegan.jpeg',
       description:
         'Textured vegan leather ankle boots featured in a western-inspired silhouette with a stacked heel and pointed toe style.',
       price: '348.00',
@@ -203,7 +203,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vegan Going West Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vegan.jpeg',
       description:
         'Textured vegan leather ankle boots featured in a western-inspired silhouette with a stacked heel and pointed toe style.',
       price: '348.00',
@@ -211,7 +211,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vegan Going West Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vegan.jpeg',
       description:
         'Textured vegan leather ankle boots featured in a western-inspired silhouette with a stacked heel and pointed toe style.',
       price: '348.00',
@@ -219,7 +219,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Sierra Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/sierra.jpeg',
       description:
         'Spanish made western-inspired boots from Zadig & Voltaire featuring a classic silhouette and a colorful butterfly design.',
       price: '898.00',
@@ -227,7 +227,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Sierra Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/sierra.jpeg',
       description:
         'Spanish made western-inspired boots from Zadig & Voltaire featuring a classic silhouette and a colorful butterfly design.',
       price: '898.00',
@@ -235,7 +235,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Sierra Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/sierra.jpeg',
       description:
         'Spanish made western-inspired boots from Zadig & Voltaire featuring a classic silhouette and a colorful butterfly design.',
       price: '898.00',
@@ -243,7 +243,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Sierra Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/sierra.jpeg',
       description:
         'Spanish made western-inspired boots from Zadig & Voltaire featuring a classic silhouette and a colorful butterfly design.',
       price: '898.00',
@@ -251,7 +251,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Seville Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/seville.jpeg',
       description:
         'Classic western-inspired ankle boots featuring a metallic leather design with distressed details and a stacked wooden heel.',
       price: '348.00',
@@ -259,7 +259,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Seville Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/seville.jpeg',
       description:
         'Classic western-inspired ankle boots featuring a metallic leather design with distressed details and a stacked wooden heel.',
       price: '348.00',
@@ -267,7 +267,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Seville Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/seville.jpeg',
       description:
         'Classic western-inspired ankle boots featuring a metallic leather design with distressed details and a stacked wooden heel.',
       price: '348.00',
@@ -275,7 +275,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Seville Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/seville.jpeg',
       description:
         'Classic western-inspired ankle boots featuring a metallic leather design with distressed details and a stacked wooden heel.',
       price: '348.00',
@@ -283,7 +283,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Gold Rush Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/gold-rush.jpeg',
       description:
         'Italian-made western-inspired boots featuring croc textured accents and a sparkling embroidered velvet back.',
       price: '529.00',
@@ -291,7 +291,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Gold Rush Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/gold-rush.jpeg',
       description:
         'Italian-made western-inspired boots featuring croc textured accents and a sparkling embroidered velvet back.',
       price: '529.00',
@@ -299,7 +299,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Gold Rush Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/gold-rush.jpeg',
       description:
         'Italian-made western-inspired boots featuring croc textured accents and a sparkling embroidered velvet back.',
       price: '529.00',
@@ -307,7 +307,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Gold Rush Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/gold-rush.jpeg',
       description:
         'Italian-made western-inspired boots featuring croc textured accents and a sparkling embroidered velvet back.',
       price: '529.00',
@@ -315,7 +315,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vancouver Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vancouver.jpeg',
       description:
         'Italian-made western-inspired boots featuring a croc design with a pointed toe and block heel.',
       price: '478.00',
@@ -323,7 +323,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vancouver Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vancouver.jpeg',
       description:
         'Italian-made western-inspired boots featuring a croc design with a pointed toe and block heel.',
       price: '478.00',
@@ -331,7 +331,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vancouver Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vancouver.jpeg',
       description:
         'Italian-made western-inspired boots featuring a croc design with a pointed toe and block heel.',
       price: '478.00',
@@ -339,7 +339,7 @@ async function seed() {
     }),
     await Product.create({
       name: 'Vancouver Western Boot',
-      imageUrl: '/img/arizona.jpeg',
+      imageUrl: '/img/vancouver.jpeg',
       description:
         'Italian-made western-inspired boots featuring a croc design with a pointed toe and block heel.',
       price: '478.00',
