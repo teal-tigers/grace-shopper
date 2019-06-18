@@ -6,7 +6,6 @@ import {
   Login,
   Signup,
   SignupConfirm,
-  UserHome,
   UserAccount,
   AllProducts,
   SingleProductDetails,
