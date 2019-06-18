@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {submitOrderThunk, clearCart} from '../store/cart'
-import {Signup} from './auth-form'
 import {Link} from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'

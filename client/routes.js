@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
-  SignupConfirm,
-  UserHome,
   UserAccount,
   AllProducts,
   SingleProductDetails,
@@ -60,9 +58,6 @@ class Routes extends Component {
               />
             )}
           />
-          {isLoggedIn && (
-            <Route path="/signup/confirm" component={SignupConfirm} />
-          )}
           {isLoggedIn && <Route path="/account" component={UserAccount} />}
           {/* Displays our AllProducts component as a fallback */}
 
