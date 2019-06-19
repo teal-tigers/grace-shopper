@@ -12,11 +12,29 @@ class Checkout extends React.Component {
     this.state = {
       address: this.props.user.address,
       promo: '',
-      total: [this.props.total, false]
+      promoUsed: false,
+      total: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.promoHandler = this.promoHandler.bind(this)
+  }
+  componentDidMount() {
+    let total = this.props.cartItems.reduce((acc, val) => {
+      return acc + val.order_products.quantity * val.price
+    }, 0)
+    this.setState({
+      total
+    })
+  }
+  componentDidUpdate(prev) {
+    if (this.props.cartItems !== prev.cartItems) {
+      let total = this.props.cartItems.reduce((acc, val) => {
+        return acc + val.order_products.quantity * val.price
+      }, 0)
+      total = this.state.promoUsed ? total / 2 : total
+      this.setState({total})
+    }
   }
 
   handleChange(event) {
@@ -28,11 +46,12 @@ class Checkout extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('STATE:', this.state)
+
     this.props.submitOrderThunk(
       this.props.orderId,
       this.state.address,
-      this.state.total
+      this.state.total,
+      this.state.promoUsed
     )
     this.props.clearCart()
     this.setState({
@@ -44,9 +63,9 @@ class Checkout extends React.Component {
 
   promoHandler(event) {
     event.preventDefault()
-    if (this.state.promo === 'ranchlife') {
-      let halfTotal = this.props.total / 2
-      this.setState({total: [halfTotal, true]})
+    if (this.state.promo === 'ranchlife' && !this.state.promoUsed) {
+      let halfTotal = this.state.total / 2
+      this.setState({total: halfTotal, promoUsed: true})
     }
   }
 
@@ -58,7 +77,7 @@ class Checkout extends React.Component {
       </React.Fragment>
     ) : (
       <React.Fragment>
-        <h3>{`Total: $${this.state.total[0].toFixed(2)}`}</h3>
+        <h3>{`Total: $${this.state.total.toFixed(2)}`}</h3>
         <Form onSubmit={this.promoHandler}>
           <Form.Label style={{marginTop: '2rem', marginBottom: '2rem'}}>
             <strong>{this.props.user.fullName}</strong>, please complete
@@ -99,10 +118,15 @@ class Checkout extends React.Component {
   }
 }
 
+const mapState = state => ({
+  cartItems: state.cart.cartItems,
+  user: state.user
+})
+
 const mapDispatch = dispatch => ({
-  submitOrderThunk: (orderId, address, total) =>
-    dispatch(submitOrderThunk(orderId, address, total)),
+  submitOrderThunk: (orderId, address, total, promoUsed) =>
+    dispatch(submitOrderThunk(orderId, address, total, promoUsed)),
   clearCart: () => dispatch(clearCart())
 })
 
-export default connect(null, mapDispatch)(Checkout)
+export default connect(mapState, mapDispatch)(Checkout)

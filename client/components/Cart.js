@@ -55,9 +55,9 @@ class Cart extends React.Component {
     const {cartItems, order} = this.props
 
     // helper func to calculate order total
-    const orderTotal = cartItems.reduce((acc, val) => {
-      return acc + val.order_products.quantity * val.price
-    }, 0)
+    // const orderTotal = cartItems.reduce((acc, val) => {
+    //   return acc + val.order_products.quantity * val.price
+    // }, 0)
 
     return (
       <React.Fragment>
@@ -198,7 +198,6 @@ class Cart extends React.Component {
                 <hr />
                 <Checkout
                   orderId={this.props.order.id}
-                  total={orderTotal}
                   user={this.props.user}
                 />
               </Card.Body>
