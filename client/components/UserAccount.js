@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {getUserAccountThunk} from '../store/account'
 import OrderHistory from './OrderHistory'
 import {saveGuestCartThunk} from '../store/cart'
+import Card from 'react-bootstrap/Card'
+import {isNullOrUndefined} from 'util'
 
 class UserAccount extends React.Component {
   componentDidMount() {
@@ -14,42 +16,28 @@ class UserAccount extends React.Component {
     const {userAccount} = this.props
 
     return (
-      <div>
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-6 hidden-xs text-center">
-              <div>
-                <h2>Account Information</h2>
-              </div>
-              <div>
-                <strong>Name:</strong> {userAccount.fullName}
-              </div>
-              <div>
-                <strong>Email:</strong> {userAccount.email}
-              </div>
-            </div>
-
-            <div className="col-sm-6 hidden-xs text-center">
-              <div>
-                <h2>Default Address</h2>
-              </div>
-              {userAccount.address ? (
-                <div>
-                  <strong>Address:</strong> {userAccount.address}
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
-          </div>
-        </div>
-
-        <br />
-        <br />
-        <div className="container">
-          <OrderHistory orders={userAccount.orders} />
-        </div>
-      </div>
+      <React.Fragment>
+        <Card border="info" style={{width: '30rem', marginBottom: '4rem'}}>
+          <Card.Header>Account Information</Card.Header>
+          <Card.Body>
+            <Card.Text>Name</Card.Text>
+            <Card.Title>{userAccount.fullName}</Card.Title>
+            <hr />
+            <Card.Text>Email</Card.Text>
+            <Card.Title>{userAccount.email}</Card.Title>
+            <hr />
+            {userAccount.address ? (
+              <React.Fragment>
+                <Card.Text>Address</Card.Text>
+                <Card.Title>{userAccount.address}</Card.Title>
+              </React.Fragment>
+            ) : (
+              ''
+            )}
+          </Card.Body>
+        </Card>
+        <OrderHistory orders={userAccount.orders} />
+      </React.Fragment>
     )
   }
 }

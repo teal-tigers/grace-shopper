@@ -15,8 +15,6 @@ import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
 
 class Cart extends React.Component {
   constructor() {

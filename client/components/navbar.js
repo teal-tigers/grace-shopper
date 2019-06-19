@@ -15,15 +15,16 @@ const Navbar = ({handleClick, isLoggedIn, fullName}) => (
     sticky="top"
     style={{marginBottom: '2rem'}}
   >
-    <NavBar.Brand as={Link} to="/">
+    <NavBar.Brand
+      as={Link}
+      to="/"
+      style={{font: 'Yatra One', color: '#D2691E'}}
+    >
       MADE FOR WALKING
     </NavBar.Brand>
     <NavBar.Toggle aria-controls="responsive-navbar-nav" />
     <NavBar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
-        {/* <Nav.Link as={Link} to="/home">
-          <FontAwesomeIcon icon="home" size="2x" />
-        </Nav.Link> */}
         <Nav.Link as={Link} to="/home">
           Western Boots
         </Nav.Link>
