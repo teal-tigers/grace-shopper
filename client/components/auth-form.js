@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth, addUserThunk, saveGuestCartThunk} from '../store'
+import {auth, addUserThunk} from '../store'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
@@ -12,7 +12,7 @@ import Card from 'react-bootstrap/Card'
  */
 
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error, cartItems} = props
+  const {name, displayName, handleSubmit, error} = props
 
   return (
     <Card style={{width: '30rem'}}>
