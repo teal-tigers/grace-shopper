@@ -9,11 +9,11 @@ const SingleOrder = props => {
 
   return (
     <React.Fragment>
-      <h5>Order #{order.id}</h5>
+      <h2>Order History</h2>
       <Table responsive="sm">
         <thead>
           <tr>
-            <th />
+            <th>Order #{order.id}</th>
             <th>Items Ordered</th>
             <th>Item Price</th>
             <th>Quantity</th>
@@ -44,27 +44,19 @@ const SingleOrder = props => {
 
         <tfoot>
           <tr>
-            <td data-th="Product">
-              <strong>Shipping Status: {order.status}</strong>
+            <td>Shipping Status:</td>
+            <td colSpan="2">
+              <strong>{order.status}</strong>{' '}
             </td>
-            <td colSpan="2" className="hidden-xs" />
-            {!order.promo ? (
-              <td className="hidden-xs text-center">
-                <strong>Total $ {order.total}</strong>
-              </td>
-            ) : null}
+            <td />
+            <td>
+              {!order.promo ? (
+                <p>
+                  <strong>Total:</strong> ${order.total}
+                </p>
+              ) : null}
+            </td>
           </tr>
-          {order.promo ? (
-            <tr>
-              <td data-th="Product">
-                <strong>Promo Applied: 50% off!</strong>
-              </td>
-              <td colSpan="2" className="hidden-xs" />
-              <td className="hidden-xs text-center">
-                <strong>Total $ {order.total}</strong>
-              </td>
-            </tr>
-          ) : null}
         </tfoot>
       </Table>
     </React.Fragment>

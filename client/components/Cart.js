@@ -15,8 +15,6 @@ import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
 
 class Cart extends React.Component {
   constructor() {
@@ -96,33 +94,35 @@ class Cart extends React.Component {
                   </td>
                   <td>
                     <InputGroup
-                      // // style={{
-                      // //   width: '2rem',
-                      // //   marginRight: '0.5rem'
-                      // }}
+                      size="sm"
                       onChange={this.handleChange}
                       name="quantity"
                     >
                       <InputGroup.Prepend>
-                        <InputGroup.Text>
+                        <InputGroup.Text
+                          style={{
+                            width: '2.5rem',
+                            marginBottom: '1rem'
+                          }}
+                        >
                           {item.order_products.quantity}
                         </InputGroup.Text>
+
+                        <Form.Control
+                          as="select"
+                          required
+                          style={{width: '2.5rem', marginBottom: '1rem'}}
+                          onChange={this.handleChange}
+                          name="Quantity"
+                        >
+                          <option value="">-</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </Form.Control>
                       </InputGroup.Prepend>
-                      <Form.Control
-                        as="select"
-                        required
-                        className="browser-default custom-select"
-                        style={{width: '8rem', marginBottom: '2rem'}}
-                        onChange={this.handleChange}
-                        name="Quantity"
-                      >
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </Form.Control>
                     </InputGroup>
 
                     {/* this ternary and the one below triggers different actions
